@@ -1,0 +1,56 @@
+import pytest
+import json
+import os
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from dotenv import load_dotenv
+from api.client import TandoorAPIClient
+
+load_dotenv()
+
+@pytest.fixture
+def api_client():
+    return TandoorAPIClient()
+
+@pytest.fixture
+def load_test_data():
+    with open('test_data.json', 'r') as f:
+        return json.load(f)
+
+@pytest.fixture
+def get_or_create_recipe(api_client):
+    recipes = api_client.get_recipes()
+    if recipes and 'results' in recipes and recipes['results']:
+        return recipes['results'][0]['id']
+    else:
+        # Импортировать рецепт
+        url = "https://eda.ru/recepty/zavtraki/omlet-s-syrom-i-zelenyu-12345"  # Пример
+        recipe = api_client.import_recipe(url)
+        return recipe['id'] if recipe else None
+
+@pytest.fixture
+def driver():
+    options = Options()
+    if os.getenv('CI'):
+        # Для GitLab CI использовать Selenium Grid
+        options.add_argument('--headless')
+        driver = webdriver.Remote(
+            command_executor='http://selenium__standalone-chrome:4444/wd/hub',
+            options=options
+        )
+    else:
+        # Локально
+        options.add_argument('--headless')
+        driver = webdriver.Chrome(options=options)
+    yield driver
+    driver.quit()
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    rep = outcome.get_result()
+    if rep.when == "call" and rep.failed:
+        driver = item.funcargs.get('driver')
+        if driver:
+            screenshot = driver.get_screenshot_as_png()
+            allure.attach(screenshot, name="Screenshot", attachment_type=allure.attachment_type.PNG)
