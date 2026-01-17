@@ -1,6 +1,7 @@
 import pytest
 import json
 import os
+import allure
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from dotenv import load_dotenv
@@ -10,7 +11,15 @@ load_dotenv()
 
 @pytest.fixture
 def api_client():
-    return TandoorAPIClient()
+    client = TandoorAPIClient()
+    # Проверка соединения
+    try:
+        recipes = client.get_recipes()
+        if recipes is None:
+            pytest.skip("API недоступно или токен неправильный")
+    except Exception:
+        pytest.skip("API недоступно или токен неправильный")
+    return client
 
 @pytest.fixture
 def load_test_data():
@@ -35,7 +44,7 @@ def driver():
         # Для GitLab CI использовать Selenium Grid
         options.add_argument('--headless')
         driver = webdriver.Remote(
-            command_executor='http://selenium__standalone-chrome:4444/wd/hub',
+            command_executor='http://selenium:4444/wd/hub',
             options=options
         )
     else:

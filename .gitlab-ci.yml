@@ -13,8 +13,9 @@ cache:
 
 prepare:
   stage: prepare
-  image: python:3.11
+  image: python:3.11-bullseye
   before_script:
+    - apt update -qq
     - python -m venv venv
     - source venv/bin/activate
     - pip install -r requirements.txt
@@ -27,7 +28,7 @@ prepare:
 
 test_api:
   stage: test
-  image: python:3.11
+  image: python:3.11-bullseye
   dependencies:
     - prepare
   before_script:
@@ -41,7 +42,7 @@ test_api:
 
 test_ui:
   stage: test
-  image: python:3.11
+  image: python:3.11-bullseye
   dependencies:
     - prepare
   services:
@@ -49,7 +50,6 @@ test_ui:
       alias: selenium
   before_script:
     - source venv/bin/activate
-    - pip install -r requirements.txt
   script:
     - pytest tests/test_ui_meal_plan.py -m ui --alluredir=allure-results
   artifacts:
@@ -59,7 +59,7 @@ test_ui:
 
 generate_report:
   stage: report
-  image: python:3.11
+  image: python:3.11-bullseye
   dependencies:
     - test_api
     - test_ui
