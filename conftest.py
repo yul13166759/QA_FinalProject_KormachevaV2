@@ -43,14 +43,20 @@ def driver():
     if os.getenv('CI'):
         # Для GitLab CI использовать Selenium Grid
         options.add_argument('--headless')
-        driver = webdriver.Remote(
-            command_executor='http://selenium:4444/wd/hub',
-            options=options
-        )
+        try:
+            driver = webdriver.Remote(
+                command_executor='http://selenium:4444/wd/hub',
+                options=options
+            )
+        except Exception as e:
+            pytest.skip(f"Selenium недоступен: {e}")
     else:
         # Локально
         options.add_argument('--headless')
-        driver = webdriver.Chrome(options=options)
+        try:
+            driver = webdriver.Chrome(options=options)
+        except Exception as e:
+            pytest.skip(f"Chrome недоступен: {e}")
     yield driver
     driver.quit()
 
