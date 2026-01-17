@@ -15,8 +15,9 @@ prepare:
   stage: prepare
   image: python:3.11-bullseye
   before_script:
-    - apt-get update --allow-releaseinfo-change
-    - apt-get install -y python3-venv
+    - apt-get update -qq --allow-releaseinfo-change
+    - apt-get install -qq -y python3-venv
+    - mkdir -p venv
     - python3 -m venv venv
     - source venv/bin/activate
     - pip install -r requirements.txt
