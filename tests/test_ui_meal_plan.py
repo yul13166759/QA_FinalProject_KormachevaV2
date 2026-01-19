@@ -41,6 +41,7 @@ class TestMealPlanUI:
 
     @allure.step("View meal plan")
     def test_view_meal_plan(self, driver):
+        self.login(driver)
         header = HeaderComponent(driver)
         header.go_to_meal_plan()
         meal_plan = MealPlanPage(driver)
@@ -49,6 +50,7 @@ class TestMealPlanUI:
 
     @allure.step("Delete meal plan")
     def test_delete_meal_plan(self, driver):
+        self.login(driver)
         header = HeaderComponent(driver)
         header.go_to_meal_plan()
         meal_plan = MealPlanPage(driver)
@@ -58,6 +60,7 @@ class TestMealPlanUI:
 
     @allure.step("Check shopping list")
     def test_check_shopping_list(self, driver):
+        self.login(driver)
         header = HeaderComponent(driver)
         header.go_to_shopping_list()
         shopping_list = ShoppingListPage(driver)
