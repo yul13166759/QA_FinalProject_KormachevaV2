@@ -59,7 +59,7 @@ test_ui:
       - allure-results/
     expire_in: 1 hour
 
-generate_report:
+pages:
   stage: report
   image: python:3.11-bullseye
   dependencies:
@@ -74,4 +74,4 @@ generate_report:
       - public/
     expire_in: 1 week
   only:
-    - master
+    - main
