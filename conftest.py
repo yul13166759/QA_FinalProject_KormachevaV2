@@ -39,15 +39,23 @@ def get_or_create_recipe(api_client):
 
 @pytest.fixture
 def driver():
-    if os.getenv('CI'):
-        # В CI пропускаем UI тесты из-за проблем с селекторами
-        pytest.skip("UI tests skipped in CI due to selector issues")
     options = Options()
     options.add_argument('--headless')
-    try:
-        driver = webdriver.Chrome(options=options)
-    except Exception as e:
-        pytest.skip(f"Chrome недоступен: {e}")
+    if os.getenv('CI'):
+        # В CI используем Selenium Grid
+        try:
+            driver = webdriver.Remote(
+                command_executor='http://selenium:4444/wd/hub',
+                options=options
+            )
+        except Exception as e:
+            pytest.skip(f"Selenium недоступен: {e}")
+    else:
+        # Локально
+        try:
+            driver = webdriver.Chrome(options=options)
+        except Exception as e:
+            pytest.skip(f"Chrome недоступен: {e}")
     yield driver
     driver.quit()
 
