@@ -36,10 +36,10 @@ test_api:
   before_script:
     - source venv/bin/activate
   script:
-    - pytest tests/test_api_client.py -m api --alluredir=allure-results
+    - pytest tests/test_api_client.py -m api --alluredir=allure-api
   artifacts:
     paths:
-      - allure-results/
+      - allure-api/
     expire_in: 1 hour
 
 test_ui:
@@ -53,10 +53,10 @@ test_ui:
   before_script:
     - source venv/bin/activate
   script:
-    - pytest tests/test_ui_meal_plan.py -m ui --alluredir=allure-results
+    - pytest tests/test_ui_meal_plan.py -m ui --alluredir=allure-ui
   artifacts:
     paths:
-      - allure-results/
+      - allure-ui/
     expire_in: 1 hour
 
 pages:
@@ -71,7 +71,7 @@ pages:
     - tar -xzf allure-2.24.0.tgz
     - export PATH=$PATH:$(pwd)/allure-2.24.0/bin
   script:
-    - allure generate allure-results --clean -o public
+    - allure generate allure-api allure-ui --clean -o public
   artifacts:
     paths:
       - public/
