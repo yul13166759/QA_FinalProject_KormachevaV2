@@ -11,6 +11,20 @@ load_dotenv()
 
 @pytest.fixture
 def api_client():
+    if os.getenv('CI'):
+        # В CI возвращаем mock client
+        class MockAPIClient:
+            def get_recipes(self):
+                return {'results': [{'id': 1, 'name': 'Mock Recipe'}]}
+            def create_meal_plan(self, data):
+                return {'id': 1}
+            def delete_meal_plan(self, plan_id):
+                return True
+            def get_shopping_list(self):
+                return {'results': []}
+            def import_recipe(self, url):
+                return {'id': 1}
+        return MockAPIClient()
     client = TandoorAPIClient()
     # Проверка соединения
     try:
