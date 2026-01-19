@@ -3,9 +3,9 @@ from selenium.webdriver.common.by import By
 from .base_page import BasePage
 
 class LoginPage(BasePage):
-    USERNAME_FIELD = (By.XPATH, "//input[@name='username']")  # Используем XPath для универсальности
-    PASSWORD_FIELD = (By.XPATH, "//input[@name='password']")
-    LOGIN_BUTTON = (By.XPATH, "//button[@type='submit']")
+    USERNAME_FIELD = (By.CSS_SELECTOR, "input[name='username']")  # Используем CSS селекторы с атрибутами
+    PASSWORD_FIELD = (By.CSS_SELECTOR, "input[name='password']")
+    LOGIN_BUTTON = (By.CSS_SELECTOR, "button[type='submit']")
 
     def login(self, username, password):
         time.sleep(5)  # Ждём загрузки страницы

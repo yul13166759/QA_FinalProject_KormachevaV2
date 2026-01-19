@@ -2,8 +2,8 @@ from selenium.webdriver.common.by import By
 from .base_page import BasePage
 
 class HeaderComponent(BasePage):
-    MEAL_PLAN_LINK = (By.XPATH, "//a[contains(text(), 'Meal Plan')]")  # Используем XPath для поиска по тексту
-    SHOPPING_LIST_LINK = (By.XPATH, "//a[contains(text(), 'Shopping List')]")
+    MEAL_PLAN_LINK = (By.XPATH, "//a[text()='Meal Plan']")  # Точный текст ссылки
+    SHOPPING_LIST_LINK = (By.XPATH, "//a[text()='Shopping List']")
     USER_NAME = (By.CLASS_NAME, "user-name")  # Предполагаемый селектор
 
     def go_to_meal_plan(self):
