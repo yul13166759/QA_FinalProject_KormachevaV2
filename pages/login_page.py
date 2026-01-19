@@ -2,8 +2,8 @@ from selenium.webdriver.common.by import By
 from .base_page import BasePage
 
 class LoginPage(BasePage):
-    USERNAME_FIELD = (By.ID, "id_username")  # Предполагаемые селекторы
-    PASSWORD_FIELD = (By.ID, "id_password")
+    USERNAME_FIELD = (By.NAME, "username")  # Обновленные селекторы
+    PASSWORD_FIELD = (By.NAME, "password")
     LOGIN_BUTTON = (By.CSS_SELECTOR, "button[type='submit']")
 
     def login(self, username, password):

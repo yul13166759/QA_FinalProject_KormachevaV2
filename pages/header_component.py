@@ -2,8 +2,8 @@ from selenium.webdriver.common.by import By
 from .base_page import BasePage
 
 class HeaderComponent(BasePage):
-    MEAL_PLAN_LINK = (By.LINK_TEXT, "Meal Plan")
-    SHOPPING_LIST_LINK = (By.LINK_TEXT, "Shopping List")
+    MEAL_PLAN_LINK = (By.LINK_TEXT, "Meal Plans")
+    SHOPPING_LIST_LINK = (By.LINK_TEXT, "Shopping Lists")
     USER_NAME = (By.CLASS_NAME, "user-name")  # Предполагаемый селектор
 
     def go_to_meal_plan(self):
