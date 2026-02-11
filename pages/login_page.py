@@ -6,9 +6,10 @@ from selenium.common.exceptions import TimeoutException
 from .base_page import BasePage
 
 class LoginPage(BasePage):
-    USERNAME_FIELD = (By.CSS_SELECTOR, "input[name='username']")  # Используем CSS селекторы с атрибутами
+    # Используем правильные селекторы для allauth формы
+    USERNAME_FIELD = (By.CSS_SELECTOR, "input[name='login']")  # allauth использует 'login' вместо 'username'
     PASSWORD_FIELD = (By.CSS_SELECTOR, "input[name='password']")
-    LOGIN_BUTTON = (By.CSS_SELECTOR, "button[type='submit']")
+    LOGIN_BUTTON = (By.CSS_SELECTOR, "button[type='submit'], input[type='submit']")
     
     # Дополнительные локаторы для отладки
     FORM = (By.TAG_NAME, "form")

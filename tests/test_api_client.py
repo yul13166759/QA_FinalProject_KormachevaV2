@@ -72,3 +72,26 @@ class TestAPIClient:
     def test_delete_nonexistent_meal_plan(self, api_client):
         result = api_client.delete_meal_plan(99999)  # Несуществующий ID
         assert result is False  # Должно вернуть False при ошибке
+
+    @allure.step("Test error handling - get non-existent recipe")
+    def test_get_nonexistent_recipe(self, api_client):
+        recipe = api_client.get_recipe(99999)
+        assert recipe is None
+
+    @allure.step("Test error handling - get non-existent meal plan")
+    def test_get_nonexistent_meal_plan(self, api_client):
+        plan = api_client.get_meal_plan(99999)
+        assert plan is None
+
+    @allure.step("Test error handling - create meal plan with invalid data")
+    def test_create_meal_plan_invalid_data(self, api_client):
+        invalid_data = {
+            'title': '',
+            'from_date': '2023-01-01',
+            'to_date': '2023-01-01',
+            'meal_type': 1,
+            'recipe': 99999,  # Несуществующий рецепт
+            'servings': 1
+        }
+        plan = api_client.create_meal_plan(invalid_data)
+        assert plan is None

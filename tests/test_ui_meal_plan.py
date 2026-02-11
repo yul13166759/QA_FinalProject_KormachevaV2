@@ -21,12 +21,11 @@ class TestMealPlanUI:
         login_page.login(os.getenv('TANDOOR_USERNAME'), os.getenv('TANDOOR_PASSWORD'))
 
     @allure.step("Create meal plan")
-    def test_create_meal_plan(self, driver, get_or_create_recipe):
-        self.login(driver)
-        header = HeaderComponent(driver)
+    def test_create_meal_plan(self, logged_in_driver, get_or_create_recipe):
+        header = HeaderComponent(logged_in_driver)
         header.go_to_meal_plan()
 
-        meal_plan = MealPlanPage(driver)
+        meal_plan = MealPlanPage(logged_in_driver)
         data = generate_test_data()
         meal_plan.create_plan(
             title=data['title'],
@@ -40,13 +39,12 @@ class TestMealPlanUI:
         assert meal_plan.is_plan_created(data['title'])
 
     @allure.step("View meal plan")
-    def test_view_meal_plan(self, driver, get_or_create_recipe):
-        self.login(driver)
-        header = HeaderComponent(driver)
+    def test_view_meal_plan(self, logged_in_driver, get_or_create_recipe):
+        header = HeaderComponent(logged_in_driver)
         header.go_to_meal_plan()
         
         # Сначала создаем план для просмотра
-        meal_plan = MealPlanPage(driver)
+        meal_plan = MealPlanPage(logged_in_driver)
         data = generate_test_data()
         meal_plan.create_plan(
             title=data['title'],
@@ -62,11 +60,10 @@ class TestMealPlanUI:
         assert meal_plan.is_element_visible(MealPlanPage.PLAN_ITEM)
 
     @allure.step("Delete meal plan")
-    def test_delete_meal_plan(self, driver, get_or_create_recipe, api_client):
-        self.login(driver)
-        header = HeaderComponent(driver)
+    def test_delete_meal_plan(self, logged_in_driver, get_or_create_recipe, api_client):
+        header = HeaderComponent(logged_in_driver)
         header.go_to_meal_plan()
-        meal_plan = MealPlanPage(driver)
+        meal_plan = MealPlanPage(logged_in_driver)
         
         # Сначала создаем план для удаления
         data = generate_test_data()
@@ -93,13 +90,12 @@ class TestMealPlanUI:
                     pytest.fail(f"Meal plan '{data['title']}' still exists in database after UI deletion")
 
     @allure.step("Check shopping list")
-    def test_check_shopping_list(self, driver, get_or_create_recipe):
-        self.login(driver)
-        header = HeaderComponent(driver)
+    def test_check_shopping_list(self, logged_in_driver, get_or_create_recipe):
+        header = HeaderComponent(logged_in_driver)
         header.go_to_meal_plan()
         
         # Сначала создаем план с добавлением в список покупок
-        meal_plan = MealPlanPage(driver)
+        meal_plan = MealPlanPage(logged_in_driver)
         data = generate_test_data()
         meal_plan.create_plan(
             title=data['title'],
@@ -113,7 +109,7 @@ class TestMealPlanUI:
         
         # Проверяем список покупок
         header.go_to_shopping_list()
-        shopping_list = ShoppingListPage(driver)
+        shopping_list = ShoppingListPage(logged_in_driver)
         initial_count = shopping_list.get_items_count()
         assert initial_count > 0
         shopping_list.mark_item_as_bought()

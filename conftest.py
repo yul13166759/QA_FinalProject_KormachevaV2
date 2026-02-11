@@ -11,7 +11,6 @@ load_dotenv()
 
 @pytest.fixture
 def api_client():
-    # Всегда используем реальный API клиент
     client = TandoorAPIClient()
     # Проверка соединения
     try:
@@ -38,7 +37,7 @@ def get_or_create_recipe(api_client):
         recipe = api_client.import_recipe(url)
         return recipe['id'] if recipe else None
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def driver():
     options = Options()
     options.add_argument('--headless')
@@ -59,6 +58,91 @@ def driver():
             pytest.skip(f"Chrome недоступен: {e}")
     yield driver
     driver.quit()
+
+@pytest.fixture(scope="function")
+def browser_driver():
+    """Фикстура для запуска тестов с реальным браузером (без headless)"""
+    from selenium import webdriver
+    
+    options = Options()
+    # Убираем headless режим для реального отображения браузера
+    # options.add_argument('--headless')
+    options.add_argument('--start-maximized')
+    options.add_argument('--disable-blink-features=AutomationControlled')
+    options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36')
+    options.add_experimental_option('excludeSwitches', ['enable-automation'])
+    options.add_experimental_option('useAutomationExtension', False)
+    
+    try:
+        driver = webdriver.Chrome(options=options)
+        driver.set_window_size(1920, 1080)
+        # Увеличиваем таймауты
+        driver.set_page_load_timeout(120)
+        driver.implicitly_wait(20)
+    except Exception as e:
+        pytest.skip(f"Chrome недоступен: {e}")
+    
+    yield driver
+    driver.quit()
+
+@pytest.fixture(scope="function")
+def logged_in_browser(browser_driver):
+    """Фикстура для входа в систему с реальным браузером"""
+    from pages.login_page import LoginPage
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
+    from selenium.webdriver.common.by import By
+    import os
+    import time
+    
+    login_page = LoginPage(browser_driver)
+    base_url = os.getenv('BASE_URL', 'https://app.tandoor.dev')
+    
+    print(f"\n🌐 Открываем страницу логина: {base_url}/accounts/login/")
+    
+    # Открываем страницу логина с увеличенным таймаутом
+    browser_driver.get(f"{base_url}/accounts/login/")
+    
+    # Ждем загрузки страницы - проверяем URL
+    for i in range(30):  # 30 секунд максимум
+        current_url = browser_driver.current_url
+        print(f"   Попытка {i+1}: URL = {current_url}")
+        if 'tandoor.dev' in current_url or 'app.tandoor' in current_url:
+            break
+        time.sleep(1)
+    
+    # Ждем появления body
+    print("   Ожидаем загрузку body...")
+    WebDriverWait(browser_driver, 60).until(
+        EC.presence_of_element_located((By.TAG_NAME, 'body'))
+    )
+    
+    # Ждем появления формы логина (поле username)
+    print("   Ожидаем форму логина...")
+    WebDriverWait(browser_driver, 60).until(
+        EC.presence_of_element_located((By.NAME, 'login'))
+    )
+    
+    print("   ✅ Страница загружена, выполняем логин...")
+    
+    # Выполняем логин
+    login_page.login(os.getenv('TANDOOR_USERNAME'), os.getenv('TANDOOR_PASSWORD'))
+    
+    # Ждем завершения логина
+    time.sleep(3)
+    
+    yield browser_driver
+
+@pytest.fixture(scope="module")
+def logged_in_driver(driver):
+    """Фикстура для входа в систему один раз на модуль"""
+    from pages.login_page import LoginPage
+    import os
+    
+    login_page = LoginPage(driver)
+    login_page.open_url(f"{os.getenv('BASE_URL')}/accounts/login/")
+    login_page.login(os.getenv('TANDOOR_USERNAME'), os.getenv('TANDOOR_PASSWORD'))
+    yield driver
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)

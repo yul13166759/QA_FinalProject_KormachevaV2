@@ -2,16 +2,16 @@ from selenium.webdriver.common.by import By
 from .base_page import BasePage
 
 class MealPlanPage(BasePage):
-    CREATE_BUTTON = (By.XPATH, "//button[text()='Создать']")
-    PLAN_TITLE_FIELD = (By.ID, "id_title")
-    FROM_DATE_FIELD = (By.ID, "id_from_date")
-    TO_DATE_FIELD = (By.ID, "id_to_date")
-    MEAL_TYPE_FIELD = (By.ID, "id_meal_type")
-    RECIPE_FIELD = (By.ID, "id_recipe")
-    SERVINGS_FIELD = (By.ID, "id_servings")
-    ADD_TO_SHOPPING_LIST_CHECKBOX = (By.ID, "id_add_to_shopping_list")
-    SAVE_BUTTON = (By.XPATH, "//button[text()='Сохранить']")
-    PLAN_ITEM = (By.CLASS_NAME, "meal-plan-item")  # Предполагаемый
+    CREATE_BUTTON = (By.CSS_SELECTOR, "button[data-testid='create-meal-plan-btn']")
+    PLAN_TITLE_FIELD = (By.CSS_SELECTOR, "input[data-testid='meal-plan-title']")
+    FROM_DATE_FIELD = (By.CSS_SELECTOR, "input[data-testid='meal-plan-from-date']")
+    TO_DATE_FIELD = (By.CSS_SELECTOR, "input[data-testid='meal-plan-to-date']")
+    MEAL_TYPE_FIELD = (By.CSS_SELECTOR, "select[data-testid='meal-plan-meal-type']")
+    RECIPE_FIELD = (By.CSS_SELECTOR, "select[data-testid='meal-plan-recipe']")
+    SERVINGS_FIELD = (By.CSS_SELECTOR, "input[data-testid='meal-plan-servings']")
+    ADD_TO_SHOPPING_LIST_CHECKBOX = (By.CSS_SELECTOR, "input[data-testid='add-to-shopping-list']")
+    SAVE_BUTTON = (By.CSS_SELECTOR, "button[data-testid='save-meal-plan-btn']")
+    PLAN_ITEM = (By.CSS_SELECTOR, ".meal-plan-item")  # Более конкретный селектор
 
     def create_plan(self, title, from_date, to_date, meal_type, recipe, servings, add_to_list=False):
         self.click_element(self.CREATE_BUTTON)
