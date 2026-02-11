@@ -51,11 +51,22 @@ class TestAPIClient:
         assert recipe is not None
         assert 'id' in recipe
 
+    @allure.step("Import recipe with invalid URL")
+    def test_import_recipe_invalid_url(self, api_client):
+        url = "https://invalid-url-that-does-not-exist.com"
+        recipe = api_client.import_recipe(url)
+        assert recipe is None
+
     @allure.step("Delete recipe")
     def test_delete_recipe(self, api_client, get_or_create_recipe):
         if get_or_create_recipe:
             result = api_client.delete_recipe(get_or_create_recipe)
             assert result is True
+
+    @allure.step("Delete non-existent recipe")
+    def test_delete_nonexistent_recipe(self, api_client):
+        result = api_client.delete_recipe(99999)
+        assert result is False
 
     @allure.step("Test error handling - delete non-existent meal plan")
     def test_delete_nonexistent_meal_plan(self, api_client):

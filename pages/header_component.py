@@ -2,9 +2,10 @@ from selenium.webdriver.common.by import By
 from .base_page import BasePage
 
 class HeaderComponent(BasePage):
-    MEAL_PLAN_LINK = (By.XPATH, "//a[text()='Meal Plan']")  # Точный текст ссылки
-    SHOPPING_LIST_LINK = (By.XPATH, "//a[text()='Shopping List']")
-    USER_NAME = (By.CLASS_NAME, "user-name")  # Предполагаемый селектор
+    # Используем более надежные локаторы - по href или data-testid
+    MEAL_PLAN_LINK = (By.XPATH, "//a[contains(@href, '/plan') or contains(@href, 'meal') or contains(text(), 'Meal')]")
+    SHOPPING_LIST_LINK = (By.XPATH, "//a[contains(@href, '/shopping') or contains(text(), 'Shopping')]")
+    USER_NAME = (By.XPATH, "//span[contains(@class, 'user') or contains(@class, 'name')] | //div[contains(@class, 'user')]")
 
     def go_to_meal_plan(self):
         self.click_element(self.MEAL_PLAN_LINK)

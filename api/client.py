@@ -52,6 +52,12 @@ class TandoorAPIClient:
             return response.json()
         return None
 
+    def get_meal_plans(self):
+        response = self._make_request('GET', '/api/plan/')
+        if response:
+            return response.json()
+        return None
+
     def delete_meal_plan(self, plan_id):
         response = self._make_request('DELETE', f'/api/plan/{plan_id}/')
         return response is not None
