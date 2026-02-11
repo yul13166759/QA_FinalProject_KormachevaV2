@@ -6,17 +6,9 @@ import time
 from .base_page import BasePage
 
 class HeaderComponent(BasePage):
-    # Упрощенные локаторы для навигации
-    # Ищем по тексту и href
-    MEAL_PLAN_LINK = (
-        By.XPATH, 
-        "//a[contains(@href, 'plan') or contains(translate(text(), 'ПЛАН', 'план'), 'план')]"
-    )
-    
-    SHOPPING_LIST_LINK = (
-        By.XPATH, 
-        "//a[contains(@href, 'shopping') or contains(translate(text(), 'СПИСОК', 'список'), 'список')]"
-    )
+    # Простые и надежные локаторы для навигации
+    MEAL_PLAN_LINK = (By.CSS_SELECTOR, "a[href*='plan']")
+    SHOPPING_LIST_LINK = (By.CSS_SELECTOR, "a[href*='shopping']")
     
     USER_NAME = (
         By.XPATH, 
