@@ -5,6 +5,11 @@ stages:
 
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  # Tandoor credentials - будут переопределены из GitLab CI/CD Variables
+  TANDOOR_USERNAME: "$TANDOOR_USERNAME"
+  TANDOOR_PASSWORD: "$TANDOOR_PASSWORD"
+  TANDOOR_TOKEN: "$TANDOOR_TOKEN"
+  BASE_URL: "$BASE_URL"
 
 cache:
   paths:
