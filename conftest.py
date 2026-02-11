@@ -11,14 +11,8 @@ load_dotenv()
 
 @pytest.fixture
 def api_client():
+    """Фикстура для API клиента - всегда возвращает клиент, тесты выполняются реально"""
     client = TandoorAPIClient()
-    # Проверка соединения
-    try:
-        recipes = client.get_recipes()
-        if recipes is None:
-            pytest.skip("API недоступно или токен неправильный")
-    except Exception as e:
-        pytest.skip(f"API недоступно или токен неправильный: {e}")
     return client
 
 @pytest.fixture
