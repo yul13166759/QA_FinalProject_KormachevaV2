@@ -18,3 +18,67 @@ bash
 git commit -m "Fix: remove CI mocks and make tests independent"
 bash
 git push origin main
+
+
+Способ 1: Через терминал VS Code (самый надёжный)
+Откройте терминал в VS Code (Ctrl + ` или View → Terminal) и выполните:
+
+bash
+# 1. Проверить, какие файлы изменены
+git status
+
+# 2. Добавить ВСЕ изменённые файлы в коммит
+git add .
+
+# 3. Создать коммит с описанием
+git commit -m "Fix: remove CI mocks and make tests independent"
+
+# 4. Отправить изменения в GitLab
+git push origin main
+
+
+Способ 2: Через интерфейс VS Code (Source Control)
+Нажмите на иконку Source Control в левой панели (или Ctrl+Shift+G)
+
+Вы увидите список изменённых файлов с буквой M
+
+Нажмите на + (Stage All Changes) или добавьте каждый файл по отдельности
+
+В поле сверху напишите сообщение коммита: "Fix: remove CI mocks and make tests independent"
+
+Нажмите кнопку Commit (✓)
+
+Нажмите кнопку Sync Changes или Push (отправить)
+
+Способ 3: Проверить, что всё отправлено
+bash
+# Проверить, что все изменения закоммичены
+git status
+
+# Должно быть сообщение: "nothing to commit, working tree clean"
+
+# Проверить, что коммит отправлен в GitLab
+git log -1
+git push origin main  # если ещё не отправили
+Важно: Что именно нужно отправить
+Убедитесь, что следующие файлы изменены и отправлены:
+
+bash
+# Добавить конкретные файлы, если нужно
+git add conftest.py
+git add tests/test_api_client.py
+git add tests/test_ui_meal_plan.py
+git add tests/conftest.py  # если есть
+
+# Затем коммит и push
+git commit -m "Fix: remove CI mocks and add independent tests"
+git push origin main
+Проверка в GitLab:
+Перейдите в ваш репозиторий в GitLab
+
+Обновите страницу
+
+Проверьте файл conftest.py - там не должно быть MockAPIClient и if os.getenv('CI')
+
+Проверьте Pipeline: CI/CD → Pipelines - должен запуститься новый pipeline
+
