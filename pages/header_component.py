@@ -6,22 +6,16 @@ import time
 from .base_page import BasePage
 
 class HeaderComponent(BasePage):
-    # Используем более простые и надежные локаторы
-    # Поиск по классам, data-атрибутам и простым XPath
+    # Упрощенные локаторы для навигации
+    # Ищем по тексту и href
     MEAL_PLAN_LINK = (
         By.XPATH, 
-        "//a[contains(@href, '/plan') or contains(@href, 'meal') or contains(@href, 'Meal') or " +
-        "contains(@class, 'meal') or contains(@class, 'plan') or contains(@class, 'Meal') or " +
-        "contains(@data-testid, 'meal') or contains(@data-testid, 'plan') or contains(@data-testid, 'Meal') or " +
-        "contains(text(), 'Meal') or contains(text(), 'Plan') or contains(text(), 'План')]"
+        "//a[contains(@href, 'plan') or contains(translate(text(), 'ПЛАН', 'план'), 'план')]"
     )
     
     SHOPPING_LIST_LINK = (
         By.XPATH, 
-        "//a[contains(@href, '/shopping') or contains(@href, 'shopping') or contains(@href, 'Shopping') or " +
-        "contains(@class, 'shopping') or contains(@class, 'list') or contains(@class, 'Shopping') or " +
-        "contains(@data-testid, 'shopping') or contains(@data-testid, 'list') or contains(@data-testid, 'Shopping') or " +
-        "contains(text(), 'Shopping') or contains(text(), 'List') or contains(text(), 'Список')]"
+        "//a[contains(@href, 'shopping') or contains(translate(text(), 'СПИСОК', 'список'), 'список')]"
     )
     
     USER_NAME = (
