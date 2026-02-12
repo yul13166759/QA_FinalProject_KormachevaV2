@@ -152,5 +152,10 @@ def pytest_runtest_makereport(item, call):
     if rep.when == "call" and rep.failed:
         driver = item.funcargs.get('driver')
         if driver:
-            screenshot = driver.get_screenshot_as_png()
-            allure.attach(screenshot, name="Screenshot", attachment_type=allure.attachment_type.PNG)
+            try:
+                # Проверяем, что сессия ещё активна
+                driver.current_url
+                screenshot = driver.get_screenshot_as_png()
+                allure.attach(screenshot, name="Screenshot", attachment_type=allure.attachment_type.PNG)
+            except Exception as e:
+                print(f"Could not capture screenshot: {e}")
