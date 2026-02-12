@@ -2,6 +2,8 @@ import requests
 from dotenv import load_dotenv
 import os
 from requests.auth import HTTPBasicAuth
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 load_dotenv()
 
@@ -12,81 +14,61 @@ class TandoorAPIClient:
         self.username = os.getenv('TANDOOR_USERNAME')
         self.password = os.getenv('TANDOOR_PASSWORD')
         
-        # Создаем сессию для сохранения cookies
+        # Создаем сессию с retry стратегией
         self.session = requests.Session()
         
-        # Используем базовую авторизацию + токен в заголовке
+        # Retry strategy для повторных попыток
+        retry_strategy = Retry(
+            total=3,
+            backoff_factor=2,
+            status_forcelist=[429, 500, 502, 503, 504],
+            allowed_methods=["HEAD", "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"]
+        )
+        adapter = HTTPAdapter(max_retries=retry_strategy)
+        self.session.mount("http://", adapter)
+        self.session.mount("https://", adapter)
+        
+        # Заголовки
         self.headers = {
             'Content-Type': 'application/json'
         }
         
-        # Добавляем токен если есть (формат для Tandoor)
+        # Добавляем токен если есть
         if self.token:
             self.headers['Authorization'] = f'Token {self.token}'
         
-        # Базовая авторизация для API
+        self.session.headers.update(self.headers)
+        
+        # Базовая авторизация
         self.auth = HTTPBasicAuth(self.username, self.password) if self.username and self.password else None
         
-        # Пробуем залогиниться для получения сессии
-        self._login()
+        # Таймаут для запросов
+        self.timeout = 60
     
-    def _login(self):
-        """Вход в систему для получения сессионных кук"""
-        try:
-            # Сначала получаем CSRF токен
-            login_page = self.session.get(f"{self.base_url}/accounts/login/")
-            if login_page.status_code == 200:
-                # Извлекаем CSRF токен из HTML
-                import re
-                csrf_match = re.search(r'name="csrfmiddlewaretoken" value="([^"]+)"', login_page.text)
-                if csrf_match:
-                    csrf_token = csrf_match.group(1)
-                    
-                    # Логинимся
-                    login_data = {
-                        'csrfmiddlewaretoken': csrf_token,
-                        'login': self.username,
-                        'password': self.password,
-                    }
-                    login_headers = {
-                        'Referer': f"{self.base_url}/accounts/login/",
-                        'X-CSRFToken': csrf_token
-                    }
-                    login_response = self.session.post(
-                        f"{self.base_url}/accounts/login/",
-                        data=login_data,
-                        headers=login_headers
-                    )
-                    if login_response.status_code == 200 or login_response.status_code == 302:
-                        print("Session login successful")
-                    else:
-                        print(f"Session login failed: {login_response.status_code}")
-        except Exception as e:
-            print(f"Session login error: {e}")
-
     def _make_request(self, method, endpoint, data=None, params=None):
         url = f"{self.base_url}{endpoint}"
         try:
-            # Используем сессию для сохранения cookies
             response = self.session.request(
                 method, 
                 url, 
-                headers=self.headers, 
                 json=data, 
                 params=params,
                 auth=self.auth,
-                timeout=30
+                timeout=self.timeout
             )
             response.raise_for_status()
             return response
+        except requests.exceptions.Timeout:
+            print(f"Error: Request timeout for {url} - проверьте VPN")
+            return None
+        except requests.exceptions.ConnectionError:
+            print(f"Error: Connection error for {url} - возможно, нужен VPN")
+            return None
         except requests.exceptions.HTTPError as e:
             if response.status_code == 403:
-                print(f"Error 403 Forbidden: {e} - Недостаточно прав доступа")
+                print(f"Error 403 Forbidden: {e} - Недостаточно прав")
             else:
-                print(f"HTTP Error: {e}")
-            return None
-        except requests.exceptions.Timeout:
-            print(f"Error: Request timeout for {url}")
+                print(f"HTTP Error {response.status_code}: {e}")
             return None
         except requests.exceptions.RequestException as e:
             print(f"Error: {e}")
