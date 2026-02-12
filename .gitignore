@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 venv/
 allure-results/
+allure-report/
 *.log
 chromedriver/
 geckodriver/
