@@ -42,14 +42,14 @@ class TandoorAPIClient:
             'Content-Type': 'application/json'
         }
         
-        # Добавляем токен если есть
+        # Авторизация: пробуем токен, если не работает - используем Basic Auth
+        self.auth = None
         if self.token:
-            self.headers['Authorization'] = f'Token {self.token}'
+            self.headers['Authorization'] = f'Bearer {self.token}'
+        elif self.username and self.password:
+            self.auth = HTTPBasicAuth(self.username, self.password)
         
         self.session.headers.update(self.headers)
-        
-        # Базовая авторизация
-        self.auth = HTTPBasicAuth(self.username, self.password) if self.username and self.password else None
         
         # Таймаут для запросов
         self.timeout = 60
