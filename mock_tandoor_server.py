@@ -26,6 +26,28 @@ def get_recipes():
     """Получить список рецептов"""
     return jsonify({"results": recipes, "count": len(recipes)})
 
+@app.route('/api/plan/', methods=['GET'])
+def get_plans():
+    """Получить список планов питания (альтернативный endpoint)"""
+    return jsonify({"results": meal_plans, "count": len(meal_plans)})
+
+@app.route('/api/plan/', methods=['POST'])
+def create_plan_api():
+    """Создать план питания через /api/plan/"""
+    data = request.json
+    plan = {
+        "id": len(meal_plans) + 1,
+        "title": data.get("title", "New Plan"),
+        "recipe": data.get("recipe"),
+        "meal_type": data.get("meal_type", "Dinner"),
+        "date": data.get("date"),
+        "servings": data.get("servings", 2),
+        "note": data.get("note", ""),
+        "created_at": datetime.now().isoformat()
+    }
+    meal_plans.append(plan)
+    return jsonify(plan), 201
+
 @app.route('/api/meal-plan/', methods=['GET'])
 def get_meal_plans():
     """Получить список планов питания"""
@@ -61,6 +83,13 @@ def create_meal_plan():
 @app.route('/api/meal-plan/<int:plan_id>/', methods=['DELETE'])
 def delete_meal_plan(plan_id):
     """Удалить план питания"""
+    global meal_plans
+    meal_plans = [p for p in meal_plans if p["id"] != plan_id]
+    return jsonify({"message": "Deleted"}), 204
+
+@app.route('/api/plan/<int:plan_id>/', methods=['DELETE'])
+def delete_plan_api(plan_id):
+    """Удалить план питания через /api/plan/"""
     global meal_plans
     meal_plans = [p for p in meal_plans if p["id"] != plan_id]
     return jsonify({"message": "Deleted"}), 204

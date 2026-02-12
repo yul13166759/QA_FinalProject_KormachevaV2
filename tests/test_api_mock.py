@@ -56,7 +56,8 @@ class TestAPIMock:
         response = mock_api_client.get(f"{BASE_URL}/api/shopping-list/")
         assert response.status_code == 200
         data = response.json()
-        assert isinstance(data, list)
+        assert "results" in data
+        assert isinstance(data["results"], list)
         allure.attach(str(data), name="Shopping List", attachment_type=allure.attachment_type.TEXT)
     
     @allure.step("Delete meal plan on mock server")
