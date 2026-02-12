@@ -37,10 +37,14 @@ test_ui_mock:
   image: python:3.11-bullseye
   dependencies:
     - prepare
+  services:
+    - name: selenium/standalone-chrome:latest
+      alias: selenium
   variables:
     BASE_URL: "http://localhost:8000"
     TANDOOR_USERNAME: "admin"
     TANDOOR_PASSWORD: "admin"
+    CI: "true"
   before_script:
     - source venv/bin/activate
     - pip install flask
