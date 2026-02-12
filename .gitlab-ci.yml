@@ -54,7 +54,7 @@ test_ui_mock:
       - allure-ui-mock/
     expire_in: 1 hour
 
-# Тесты с реальным API (только если задан TANDOOR_TOKEN)
+# Тесты с реальным API
 test_api:
   stage: test
   image: python:3.11-bullseye
@@ -62,18 +62,15 @@ test_api:
     - prepare
   before_script:
     - source venv/bin/activate
+    - cp .env.ci .env  # Копируем credentials
   script:
     - pytest tests/test_api_client.py -m api --alluredir=allure-api
   artifacts:
     paths:
       - allure-api/
     expire_in: 1 hour
-  rules:
-    - if: $TANDOOR_TOKEN != null && $TANDOOR_TOKEN != ""
-      when: always
-    - when: never
 
-# UI тесты с реальным сервером (только если заданы credentials)
+# UI тесты с реальным сервером
 test_ui:
   stage: test
   image: python:3.11-bullseye
@@ -84,16 +81,13 @@ test_ui:
       alias: selenium
   before_script:
     - source venv/bin/activate
+    - cp .env.ci .env  # Копируем credentials
   script:
     - pytest tests/test_ui_meal_plan.py -m ui --alluredir=allure-ui
   artifacts:
     paths:
       - allure-ui/
     expire_in: 1 hour
-  rules:
-    - if: $TANDOOR_TOKEN != null && $TANDOOR_TOKEN != ""
-      when: always
-    - when: never
 
 pages:
   stage: report
