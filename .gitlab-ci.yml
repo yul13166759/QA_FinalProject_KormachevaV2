@@ -41,7 +41,7 @@ test_ui_mock:
     - name: selenium/standalone-chrome:latest
       alias: selenium
   variables:
-    BASE_URL: "http://localhost:8000"
+    BASE_URL: "http://172.17.0.1:8000"
     TANDOOR_USERNAME: "admin"
     TANDOOR_PASSWORD: "admin"
     CI: "true"
@@ -49,8 +49,11 @@ test_ui_mock:
     - source venv/bin/activate
     - pip install flask
   script:
-    - python mock_tandoor_server.py &
+    # Запускаем мок-сервер на всех интерфейсах
+    - python mock_tandoor_server.py --host=0.0.0.0 --port=8000 &
     - sleep 5
+    # Проверяем, что сервер доступен
+    - curl -s http://172.17.0.1:8000/ || curl -s http://localhost:8000/
     - pytest tests/test_ui_local_mock.py -v --alluredir=allure-ui-mock
     - pkill -f mock_tandoor_server || true
   artifacts:

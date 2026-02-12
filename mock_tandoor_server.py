@@ -6,9 +6,15 @@
 
 from flask import Flask, jsonify, request, render_template_string
 import uuid
+import argparse
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
+
+# Парсер аргументов командной строки
+parser = argparse.ArgumentParser(description='Mock Tandoor Server')
+parser.add_argument('--host', default='0.0.0.0', help='Host to bind (default: 0.0.0.0)')
+parser.add_argument('--port', type=int, default=8000, help='Port to bind (default: 8000)')
 
 # Хранилище данных
 recipes = [
@@ -295,13 +301,14 @@ def index():
     return "<script>window.location.href='/accounts/login/';</script>"
 
 if __name__ == '__main__':
+    args = parser.parse_args()
     print("="*60)
     print("🚀 Запуск мок-сервера Tandoor")
     print("="*60)
-    print("\n📍 URL для тестов:")
-    print("   - UI: http://localhost:8000")
-    print("   - API: http://localhost:8000/api/")
+    print(f"\n📍 URL для тестов:")
+    print(f"   - UI: http://{args.host}:{args.port}")
+    print(f"   - API: http://{args.host}:{args.port}/api/")
     print("\n👤 Логин: любой username/password")
     print("\n⛔ Для остановки нажмите Ctrl+C")
     print("="*60 + "\n")
-    app.run(host='0.0.0.0', port=8000, debug=False)
+    app.run(host=args.host, port=args.port, debug=False)
