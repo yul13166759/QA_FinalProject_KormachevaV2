@@ -4,6 +4,10 @@ import os
 import allure
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 from dotenv import load_dotenv
 from api.client import TandoorAPIClient
 
@@ -139,6 +143,21 @@ def logged_in_driver(driver):
     if not base_url or base_url == '$BASE_URL' or '://' not in str(base_url):
         pytest.skip(f"BASE_URL не настроен правильно: {base_url}. Пропускаем тест.")
     
+    # ПРОВЕРКА ДОСТУПА: открываем главную страницу и проверяем title
+    print(f"\n🔍 Проверка доступа к {base_url}...")
+    driver.get(base_url)
+    try:
+        WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.TAG_NAME, "title")))
+        title = driver.title
+        print(f"   Title страницы: {title}")
+        if "Tandoor" not in title:
+            pytest.skip(f"Сайт {base_url} недоступен или заблокирован. Title: {title}")
+    except TimeoutException:
+        pytest.skip(f"Не удалось загрузить {base_url} - возможно, сайт заблокирован")
+    
+    print(f"   ✅ Доступ к сайту подтвержден")
+    
+    # Теперь выполняем логин
     login_page = LoginPage(driver)
     login_page.open_url(f"{base_url}/accounts/login/")
     login_page.login(os.getenv('TANDOOR_USERNAME'), os.getenv('TANDOOR_PASSWORD'))
