@@ -1,0 +1,401 @@
+2026-02-11T18:55:36.735650Z 00O [0KRunning with gitlab-runner 18.7.0~pre.433.g3a5f2314 (3a5f2314)[0;m
+2026-02-11T18:55:36.735664Z 00O [0K  on green-4.saas-linux-small-amd64.runners-manager.gitlab.com/default ntHFEtyXQ, system ID: s_8990de21c550[0;m
+2026-02-11T18:55:36.735696Z 00O section_start:1770836136:prepare_executor
+2026-02-11T18:55:36.735697Z 00O+[0K[0K[36;1mPreparing the "docker+machine" executor[0;m[0;m
+2026-02-11T18:55:36.886858Z 00O [0KUsing Docker executor with image python:3.11-bullseye ...[0;m
+2026-02-11T18:55:41.411977Z 00O [0KStarting service selenium/standalone-chrome:latest...[0;m
+2026-02-11T18:55:41.411988Z 00O [0KUsing effective pull policy of [always] for container selenium/standalone-chrome:latest[0;m
+2026-02-11T18:55:41.412678Z 00O [0KPulling docker image selenium/standalone-chrome:latest ...[0;m
+2026-02-11T18:56:14.523456Z 00O [0KUsing docker image sha256:21fb301a6fe0408d634da39dde184cc41321ae3a309d66b061199d22ffa63d21 for selenium/standalone-chrome:latest with digest selenium/standalone-chrome@sha256:18c17c7d95c29f21966ad6151c64aa1a3bf661c575a09f58d33c4bf2e5c66568 ...[0;m
+2026-02-11T18:56:21.123406Z 00O [0KWaiting for services to be up and running (timeout 30 seconds)...[0;m
+2026-02-11T18:56:24.230028Z 00O [0KUsing effective pull policy of [always] for container python:3.11-bullseye[0;m
+2026-02-11T18:56:24.230578Z 00O [0KPulling docker image python:3.11-bullseye ...[0;m
+2026-02-11T18:56:40.077699Z 00O [0KUsing docker image sha256:d0305d03a42543c1a85755043645e45fc47049ad96b51224a8530c055401e88a for python:3.11-bullseye with digest python@sha256:df0bd610af061603b29d63eb82027b64d5a3f15506e39270422b10b2a55079fc ...[0;m
+2026-02-11T18:56:40.077786Z 00O section_end:1770836200:prepare_executor
+2026-02-11T18:56:40.077788Z 00O+[0Ksection_start:1770836200:prepare_script
+2026-02-11T18:56:40.077878Z 00O+[0K[0K[36;1mPreparing environment[0;m[0;m
+2026-02-11T18:56:40.078756Z 00O [0KUsing effective pull policy of [always] for container sha256:9e2d089073ddae0ee0f1ee8cbb55df8ff8010ef6b8f6b71d221ba5fc4d74bcb1[0;m
+2026-02-11T18:56:44.260836Z 01O Running on runner-nthfetyxq-project-77806586-concurrent-0 via runner-nthfetyxq-s-l-s-amd64-1770836092-5c1c2316...
+2026-02-11T18:56:44.443832Z 00O section_end:1770836204:prepare_script
+2026-02-11T18:56:44.443836Z 00O+[0Ksection_start:1770836204:get_sources
+2026-02-11T18:56:44.444315Z 00O+[0K[0K[36;1mGetting source from Git repository[0;m[0;m
+2026-02-11T18:56:44.875978Z 01O [32;1mGitaly correlation ID: 60b3fff98e9c49b2a1936822bca1f689[0;m
+2026-02-11T18:56:44.882058Z 01O [32;1mFetching changes with git depth set to 20...[0;m
+2026-02-11T18:56:44.885720Z 01O Initialized empty Git repository in /builds/ykormacheva13166759-group/qa_finalproject_kormachevav2/.git/
+2026-02-11T18:56:44.888391Z 01O [32;1mCreated fresh repository.[0;m
+2026-02-11T18:56:45.269769Z 01O [32;1mChecking out 73123ee9 as detached HEAD (ref is master)...[0;m
+2026-02-11T18:56:45.318714Z 01O 
+2026-02-11T18:56:45.318890Z 01O [32;1mSkipping Git submodules setup[0;m
+2026-02-11T18:56:45.318894Z 01O [32;1m$ git remote set-url origin "${CI_REPOSITORY_URL}" || echo 'Not a git repository; skipping'[0;m
+2026-02-11T18:56:45.508212Z 00O section_end:1770836205:get_sources
+2026-02-11T18:56:45.508216Z 00O+[0Ksection_start:1770836205:restore_cache
+2026-02-11T18:56:45.510269Z 00O+[0K[0K[36;1mRestoring cache[0;m[0;m
+2026-02-11T18:56:45.957139Z 01O [32;1mChecking cache for default-protected...[0;m
+2026-02-11T18:56:46.104795Z 01E Downloading cache from https://storage.googleapis.com/gitlab-com-runners-cache/project/77806586/default-protected[0;m  ETag[0;m="bab12d978dbc818ceb632e3d6d204adc"
+2026-02-11T18:56:47.459826Z 01O [32;1mSuccessfully extracted cache[0;m
+2026-02-11T18:56:48.722631Z 00O section_end:1770836208:restore_cache
+2026-02-11T18:56:48.722636Z 00O+[0Ksection_start:1770836208:download_artifacts
+2026-02-11T18:56:48.722986Z 00O+[0K[0K[36;1mDownloading artifacts[0;m[0;m
+2026-02-11T18:56:49.179887Z 01O [32;1mDownloading artifacts for prepare (13079865397)...[0;m
+2026-02-11T18:56:49.799667Z 01E Downloading artifacts from coordinator... ok      [0;m  correlation_id[0;m=62ed51e09d88468bad3a99818814b4a7 host[0;m=storage.googleapis.com id[0;m=13079865397 responseStatus[0;m=200 OK token[0;m=eyJraWQiO
+2026-02-11T18:56:51.595459Z 00O section_end:1770836211:download_artifacts
+2026-02-11T18:56:51.595465Z 00O+[0Ksection_start:1770836211:step_script
+2026-02-11T18:56:51.595930Z 00O+[0K[0K[36;1mExecuting "step_script" stage of the job script[0;m[0;m
+2026-02-11T18:56:51.595949Z 00O [0KUsing effective pull policy of [always] for container python:3.11-bullseye[0;m
+2026-02-11T18:56:51.596929Z 00O [0KUsing docker image sha256:d0305d03a42543c1a85755043645e45fc47049ad96b51224a8530c055401e88a for python:3.11-bullseye with digest python@sha256:df0bd610af061603b29d63eb82027b64d5a3f15506e39270422b10b2a55079fc ...[0;m
+2026-02-11T18:56:52.031699Z 01O [32;1m$ source venv/bin/activate[0;m
+2026-02-11T18:56:52.032029Z 01O [32;1m$ pytest tests/test_ui_meal_plan.py -m ui --alluredir=allure-results[0;m
+2026-02-11T18:56:52.875541Z 01O ============================= test session starts ==============================
+2026-02-11T18:56:52.875545Z 01O platform linux -- Python 3.11.13, pytest-9.0.2, pluggy-1.6.0
+2026-02-11T18:56:52.875546Z 01O rootdir: /builds/ykormacheva13166759-group/qa_finalproject_kormachevav2
+2026-02-11T18:56:52.875547Z 01O configfile: pytest.ini
+2026-02-11T18:56:52.875547Z 01O plugins: allure-pytest-2.15.3
+2026-02-11T18:56:52.875571Z 01O collected 4 items
+2026-02-11T18:56:52.875571Z 01O 
+2026-02-11T18:56:52.875572Z 01O tests/test_ui_meal_plan.py sFFF                                          [100%]
+2026-02-11T18:57:26.723411Z 01O 
+2026-02-11T18:57:26.723412Z 01O =================================== FAILURES ===================================
+2026-02-11T18:57:26.723413Z 01O ______________________ TestMealPlanUI.test_view_meal_plan ______________________
+2026-02-11T18:57:26.723414Z 01O 
+2026-02-11T18:57:26.723414Z 01O self = <test_ui_meal_plan.TestMealPlanUI object at 0x7d23de583c50>
+2026-02-11T18:57:26.723418Z 01O driver = <selenium.webdriver.remote.webdriver.WebDriver (session="6768c74841bcb12ed433586fb39c45f6")>
+2026-02-11T18:57:26.723418Z 01O 
+2026-02-11T18:57:26.723419Z 01O     @allure.step("View meal plan")
+2026-02-11T18:57:26.723419Z 01O     def test_view_meal_plan(self, driver):
+2026-02-11T18:57:26.723420Z 01O         header = HeaderComponent(driver)
+2026-02-11T18:57:26.723420Z 01O >       header.go_to_meal_plan()
+2026-02-11T18:57:26.723421Z 01O 
+2026-02-11T18:57:26.723421Z 01O tests/test_ui_meal_plan.py:45: 
+2026-02-11T18:57:26.723422Z 01O _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-02-11T18:57:26.723422Z 01O pages/header_component.py:10: in go_to_meal_plan
+2026-02-11T18:57:26.723423Z 01O     self.click_element(self.MEAL_PLAN_LINK)
+2026-02-11T18:57:26.723423Z 01O pages/base_page.py:17: in click_element
+2026-02-11T18:57:26.723424Z 01O     element = self.find_element(locator)
+2026-02-11T18:57:26.723424Z 01O               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-02-11T18:57:26.723425Z 01O pages/base_page.py:14: in find_element
+2026-02-11T18:57:26.723425Z 01O     return self.wait.until(EC.presence_of_element_located(locator))
+2026-02-11T18:57:26.723426Z 01O            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-02-11T18:57:26.723426Z 01O _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-02-11T18:57:26.723427Z 01O 
+2026-02-11T18:57:26.723427Z 01O self = <selenium.webdriver.support.wait.WebDriverWait (session="6768c74841bcb12ed433586fb39c45f6")>
+2026-02-11T18:57:26.723428Z 01O method = <function presence_of_element_located.<locals>._predicate at 0x7d23de3b1ee0>
+2026-02-11T18:57:26.723428Z 01O message = ''
+2026-02-11T18:57:26.723429Z 01O 
+2026-02-11T18:57:26.723429Z 01O     def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
+2026-02-11T18:57:26.723430Z 01O         """Wait until the method returns a value that is not False.
+2026-02-11T18:57:26.723430Z 01O     
+2026-02-11T18:57:26.723431Z 01O         Calls the method provided with the driver as an argument until the
+2026-02-11T18:57:26.723431Z 01O         return value does not evaluate to ``False``.
+2026-02-11T18:57:26.723432Z 01O     
+2026-02-11T18:57:26.723432Z 01O         Args:
+2026-02-11T18:57:26.723433Z 01O             method: A callable object that takes a WebDriver instance as an
+2026-02-11T18:57:26.723433Z 01O                 argument.
+2026-02-11T18:57:26.723434Z 01O             message: Optional message for TimeoutException.
+2026-02-11T18:57:26.723434Z 01O     
+2026-02-11T18:57:26.723435Z 01O         Returns:
+2026-02-11T18:57:26.723435Z 01O             The result of the last call to `method`.
+2026-02-11T18:57:26.723436Z 01O     
+2026-02-11T18:57:26.723436Z 01O         Raises:
+2026-02-11T18:57:26.723437Z 01O             TimeoutException: If 'method' does not return a truthy value within
+2026-02-11T18:57:26.723437Z 01O                 the WebDriverWait object's timeout.
+2026-02-11T18:57:26.723438Z 01O     
+2026-02-11T18:57:26.723438Z 01O         Example:
+2026-02-11T18:57:26.723438Z 01O             >>> from selenium.webdriver.common.by import By
+2026-02-11T18:57:26.723439Z 01O             >>> from selenium.webdriver.support.ui import WebDriverWait
+2026-02-11T18:57:26.723440Z 01O             >>> from selenium.webdriver.support import expected_conditions as EC
+2026-02-11T18:57:26.723440Z 01O             >>>
+2026-02-11T18:57:26.723441Z 01O             >>> # Wait until an element is visible on the page
+2026-02-11T18:57:26.723464Z 01O             >>> wait = WebDriverWait(driver, 10)
+2026-02-11T18:57:26.723464Z 01O             >>> element = wait.until(EC.visibility_of_element_located((By.ID, "exampleId")))
+2026-02-11T18:57:26.723465Z 01O             >>> print(element.text)
+2026-02-11T18:57:26.723465Z 01O         """
+2026-02-11T18:57:26.723466Z 01O         screen = None
+2026-02-11T18:57:26.723466Z 01O         stacktrace = None
+2026-02-11T18:57:26.723467Z 01O     
+2026-02-11T18:57:26.723467Z 01O         end_time = time.monotonic() + self._timeout
+2026-02-11T18:57:26.723468Z 01O         while True:
+2026-02-11T18:57:26.723468Z 01O             try:
+2026-02-11T18:57:26.723468Z 01O                 value = method(self._driver)
+2026-02-11T18:57:26.723469Z 01O                 if value:
+2026-02-11T18:57:26.723469Z 01O                     return value
+2026-02-11T18:57:26.723470Z 01O             except self._ignored_exceptions as exc:
+2026-02-11T18:57:26.723470Z 01O                 screen = getattr(exc, "screen", None)
+2026-02-11T18:57:26.723471Z 01O                 stacktrace = getattr(exc, "stacktrace", None)
+2026-02-11T18:57:26.723471Z 01O             if time.monotonic() > end_time:
+2026-02-11T18:57:26.723472Z 01O                 break
+2026-02-11T18:57:26.723472Z 01O             time.sleep(self._poll)
+2026-02-11T18:57:26.723473Z 01O >       raise TimeoutException(message, screen, stacktrace)
+2026-02-11T18:57:26.723473Z 01O E       selenium.common.exceptions.TimeoutException: Message: 
+2026-02-11T18:57:26.723474Z 01O E       Stacktrace:
+2026-02-11T18:57:26.723474Z 01O E       #0 0x59c041cb74ba <unknown>
+2026-02-11T18:57:26.723475Z 01O E       #1 0x59c041720492 <unknown>
+2026-02-11T18:57:26.723475Z 01O E       #2 0x59c0417759b6 <unknown>
+2026-02-11T18:57:26.723476Z 01O E       #3 0x59c041775bf1 <unknown>
+2026-02-11T18:57:26.723476Z 01O E       #4 0x59c0417c14d4 <unknown>
+2026-02-11T18:57:26.723477Z 01O E       #5 0x59c0417be700 <unknown>
+2026-02-11T18:57:26.723477Z 01O E       #6 0x59c0417676a2 <unknown>
+2026-02-11T18:57:26.723478Z 01O E       #7 0x59c041768491 <unknown>
+2026-02-11T18:57:26.723478Z 01O E       #8 0x59c041c7d479 <unknown>
+2026-02-11T18:57:26.723479Z 01O E       #9 0x59c041c80391 <unknown>
+2026-02-11T18:57:26.723479Z 01O E       #10 0x59c041c69a89 <unknown>
+2026-02-11T18:57:26.723479Z 01O E       #11 0x59c041c80f4e <unknown>
+2026-02-11T18:57:26.723480Z 01O E       #12 0x59c041c50070 <unknown>
+2026-02-11T18:57:26.723480Z 01O E       #13 0x59c041ca4ca8 <unknown>
+2026-02-11T18:57:26.723481Z 01O E       #14 0x59c041ca4e78 <unknown>
+2026-02-11T18:57:26.723481Z 01O E       #15 0x59c041cb6828 <unknown>
+2026-02-11T18:57:26.723482Z 01O E       #16 0x7f02225d8aa4 <unknown>
+2026-02-11T18:57:26.723482Z 01O E       #17 0x7f0222665c6c <unknown>
+2026-02-11T18:57:26.723483Z 01O 
+2026-02-11T18:57:26.723483Z 01O venv/lib/python3.11/site-packages/selenium/webdriver/support/wait.py:121: TimeoutException
+2026-02-11T18:57:26.723484Z 01O _____________________ TestMealPlanUI.test_delete_meal_plan _____________________
+2026-02-11T18:57:26.723484Z 01O 
+2026-02-11T18:57:26.723485Z 01O self = <test_ui_meal_plan.TestMealPlanUI object at 0x7d23de582190>
+2026-02-11T18:57:26.723485Z 01O driver = <selenium.webdriver.remote.webdriver.WebDriver (session="c1db3814b6e5aab291446580dc6f753e")>
+2026-02-11T18:57:26.723486Z 01O 
+2026-02-11T18:57:26.723486Z 01O     @allure.step("Delete meal plan")
+2026-02-11T18:57:26.723487Z 01O     def test_delete_meal_plan(self, driver):
+2026-02-11T18:57:26.723487Z 01O         header = HeaderComponent(driver)
+2026-02-11T18:57:26.723488Z 01O >       header.go_to_meal_plan()
+2026-02-11T18:57:26.723488Z 01O 
+2026-02-11T18:57:26.723489Z 01O tests/test_ui_meal_plan.py:53: 
+2026-02-11T18:57:26.723489Z 01O _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-02-11T18:57:26.723490Z 01O pages/header_component.py:10: in go_to_meal_plan
+2026-02-11T18:57:26.723490Z 01O     self.click_element(self.MEAL_PLAN_LINK)
+2026-02-11T18:57:26.723494Z 01O pages/base_page.py:17: in click_element
+2026-02-11T18:57:26.723495Z 01O     element = self.find_element(locator)
+2026-02-11T18:57:26.723495Z 01O               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-02-11T18:57:26.723496Z 01O pages/base_page.py:14: in find_element
+2026-02-11T18:57:26.723496Z 01O     return self.wait.until(EC.presence_of_element_located(locator))
+2026-02-11T18:57:26.723497Z 01O            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-02-11T18:57:26.723498Z 01O _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-02-11T18:57:26.723498Z 01O 
+2026-02-11T18:57:26.723498Z 01O self = <selenium.webdriver.support.wait.WebDriverWait (session="c1db3814b6e5aab291446580dc6f753e")>
+2026-02-11T18:57:26.723499Z 01O method = <function presence_of_element_located.<locals>._predicate at 0x7d23de3b1440>
+2026-02-11T18:57:26.723500Z 01O message = ''
+2026-02-11T18:57:26.723500Z 01O 
+2026-02-11T18:57:26.723501Z 01O     def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
+2026-02-11T18:57:26.723501Z 01O         """Wait until the method returns a value that is not False.
+2026-02-11T18:57:26.723502Z 01O     
+2026-02-11T18:57:26.723502Z 01O         Calls the method provided with the driver as an argument until the
+2026-02-11T18:57:26.723503Z 01O         return value does not evaluate to ``False``.
+2026-02-11T18:57:26.723503Z 01O     
+2026-02-11T18:57:26.723504Z 01O         Args:
+2026-02-11T18:57:26.723504Z 01O             method: A callable object that takes a WebDriver instance as an
+2026-02-11T18:57:26.723505Z 01O                 argument.
+2026-02-11T18:57:26.723505Z 01O             message: Optional message for TimeoutException.
+2026-02-11T18:57:26.723506Z 01O     
+2026-02-11T18:57:26.723506Z 01O         Returns:
+2026-02-11T18:57:26.723506Z 01O             The result of the last call to `method`.
+2026-02-11T18:57:26.723507Z 01O     
+2026-02-11T18:57:26.723507Z 01O         Raises:
+2026-02-11T18:57:26.723508Z 01O             TimeoutException: If 'method' does not return a truthy value within
+2026-02-11T18:57:26.723508Z 01O                 the WebDriverWait object's timeout.
+2026-02-11T18:57:26.723509Z 01O     
+2026-02-11T18:57:26.723509Z 01O         Example:
+2026-02-11T18:57:26.723510Z 01O             >>> from selenium.webdriver.common.by import By
+2026-02-11T18:57:26.723510Z 01O             >>> from selenium.webdriver.support.ui import WebDriverWait
+2026-02-11T18:57:26.723511Z 01O             >>> from selenium.webdriver.support import expected_conditions as EC
+2026-02-11T18:57:26.723511Z 01O             >>>
+2026-02-11T18:57:26.723512Z 01O             >>> # Wait until an element is visible on the page
+2026-02-11T18:57:26.723512Z 01O             >>> wait = WebDriverWait(driver, 10)
+2026-02-11T18:57:26.723513Z 01O             >>> element = wait.until(EC.visibility_of_element_located((By.ID, "exampleId")))
+2026-02-11T18:57:26.723513Z 01O             >>> print(element.text)
+2026-02-11T18:57:26.723514Z 01O         """
+2026-02-11T18:57:26.723514Z 01O         screen = None
+2026-02-11T18:57:26.723515Z 01O         stacktrace = None
+2026-02-11T18:57:26.723515Z 01O     
+2026-02-11T18:57:26.723515Z 01O         end_time = time.monotonic() + self._timeout
+2026-02-11T18:57:26.723516Z 01O         while True:
+2026-02-11T18:57:26.723516Z 01O             try:
+2026-02-11T18:57:26.723517Z 01O                 value = method(self._driver)
+2026-02-11T18:57:26.723517Z 01O                 if value:
+2026-02-11T18:57:26.723518Z 01O                     return value
+2026-02-11T18:57:26.723518Z 01O             except self._ignored_exceptions as exc:
+2026-02-11T18:57:26.723519Z 01O                 screen = getattr(exc, "screen", None)
+2026-02-11T18:57:26.723519Z 01O                 stacktrace = getattr(exc, "stacktrace", None)
+2026-02-11T18:57:26.723520Z 01O             if time.monotonic() > end_time:
+2026-02-11T18:57:26.723520Z 01O                 break
+2026-02-11T18:57:26.723521Z 01O             time.sleep(self._poll)
+2026-02-11T18:57:26.723521Z 01O >       raise TimeoutException(message, screen, stacktrace)
+2026-02-11T18:57:26.723535Z 01O E       selenium.common.exceptions.TimeoutException: Message: 
+2026-02-11T18:57:26.723536Z 01O E       Stacktrace:
+2026-02-11T18:57:26.723536Z 01O E       #0 0x5abc696a04ba <unknown>
+2026-02-11T18:57:26.723537Z 01O E       #1 0x5abc69109492 <unknown>
+2026-02-11T18:57:26.723537Z 01O E       #2 0x5abc6915e9b6 <unknown>
+2026-02-11T18:57:26.723538Z 01O E       #3 0x5abc6915ebf1 <unknown>
+2026-02-11T18:57:26.723538Z 01O E       #4 0x5abc691aa4d4 <unknown>
+2026-02-11T18:57:26.723539Z 01O E       #5 0x5abc691a7700 <unknown>
+2026-02-11T18:57:26.723539Z 01O E       #6 0x5abc691506a2 <unknown>
+2026-02-11T18:57:26.723540Z 01O E       #7 0x5abc69151491 <unknown>
+2026-02-11T18:57:26.723540Z 01O E       #8 0x5abc69666479 <unknown>
+2026-02-11T18:57:26.723541Z 01O E       #9 0x5abc69669391 <unknown>
+2026-02-11T18:57:26.723541Z 01O E       #10 0x5abc69652a89 <unknown>
+2026-02-11T18:57:26.723542Z 01O E       #11 0x5abc69669f4e <unknown>
+2026-02-11T18:57:26.723542Z 01O E       #12 0x5abc69639070 <unknown>
+2026-02-11T18:57:26.723543Z 01O E       #13 0x5abc6968dca8 <unknown>
+2026-02-11T18:57:26.723543Z 01O E       #14 0x5abc6968de78 <unknown>
+2026-02-11T18:57:26.723544Z 01O E       #15 0x5abc6969f828 <unknown>
+2026-02-11T18:57:26.723544Z 01O E       #16 0x7c098feceaa4 <unknown>
+2026-02-11T18:57:26.723544Z 01O E       #17 0x7c098ff5bc6c <unknown>
+2026-02-11T18:57:26.723545Z 01O 
+2026-02-11T18:57:26.723545Z 01O venv/lib/python3.11/site-packages/selenium/webdriver/support/wait.py:121: TimeoutException
+2026-02-11T18:57:26.723546Z 01O ___________________ TestMealPlanUI.test_check_shopping_list ____________________
+2026-02-11T18:57:26.723546Z 01O 
+2026-02-11T18:57:26.723547Z 01O self = <test_ui_meal_plan.TestMealPlanUI object at 0x7d23de582e10>
+2026-02-11T18:57:26.723547Z 01O driver = <selenium.webdriver.remote.webdriver.WebDriver (session="c7eda1a5966b3412bf5636db94378a76")>
+2026-02-11T18:57:26.723548Z 01O 
+2026-02-11T18:57:26.723548Z 01O     @allure.step("Check shopping list")
+2026-02-11T18:57:26.723549Z 01O     def test_check_shopping_list(self, driver):
+2026-02-11T18:57:26.723549Z 01O         header = HeaderComponent(driver)
+2026-02-11T18:57:26.723550Z 01O >       header.go_to_shopping_list()
+2026-02-11T18:57:26.723550Z 01O 
+2026-02-11T18:57:26.723551Z 01O tests/test_ui_meal_plan.py:62: 
+2026-02-11T18:57:26.723551Z 01O _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-02-11T18:57:26.791260Z 01O pages/header_component.py:13: in go_to_shopping_list
+2026-02-11T18:57:26.791261Z 01O     self.click_element(self.SHOPPING_LIST_LINK)
+2026-02-11T18:57:26.791261Z 01O pages/base_page.py:17: in click_element
+2026-02-11T18:57:26.791262Z 01O     element = self.find_element(locator)
+2026-02-11T18:57:26.791263Z 01O               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-02-11T18:57:26.791263Z 01O pages/base_page.py:14: in find_element
+2026-02-11T18:57:26.791264Z 01O     return self.wait.until(EC.presence_of_element_located(locator))
+2026-02-11T18:57:26.791264Z 01O            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-02-11T18:57:26.791265Z 01O _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-02-11T18:57:26.791266Z 01O 
+2026-02-11T18:57:26.791266Z 01O self = <selenium.webdriver.support.wait.WebDriverWait (session="c7eda1a5966b3412bf5636db94378a76")>
+2026-02-11T18:57:26.791267Z 01O method = <function presence_of_element_located.<locals>._predicate at 0x7d23de3b1940>
+2026-02-11T18:57:26.791267Z 01O message = ''
+2026-02-11T18:57:26.791268Z 01O 
+2026-02-11T18:57:26.791268Z 01O     def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
+2026-02-11T18:57:26.791269Z 01O         """Wait until the method returns a value that is not False.
+2026-02-11T18:57:26.791269Z 01O     
+2026-02-11T18:57:26.791270Z 01O         Calls the method provided with the driver as an argument until the
+2026-02-11T18:57:26.791270Z 01O         return value does not evaluate to ``False``.
+2026-02-11T18:57:26.791271Z 01O     
+2026-02-11T18:57:26.791290Z 01O         Args:
+2026-02-11T18:57:26.791291Z 01O             method: A callable object that takes a WebDriver instance as an
+2026-02-11T18:57:26.791292Z 01O                 argument.
+2026-02-11T18:57:26.791292Z 01O             message: Optional message for TimeoutException.
+2026-02-11T18:57:26.791293Z 01O     
+2026-02-11T18:57:26.791293Z 01O         Returns:
+2026-02-11T18:57:26.791294Z 01O             The result of the last call to `method`.
+2026-02-11T18:57:26.791294Z 01O     
+2026-02-11T18:57:26.791294Z 01O         Raises:
+2026-02-11T18:57:26.791295Z 01O             TimeoutException: If 'method' does not return a truthy value within
+2026-02-11T18:57:26.791296Z 01O                 the WebDriverWait object's timeout.
+2026-02-11T18:57:26.791296Z 01O     
+2026-02-11T18:57:26.791296Z 01O         Example:
+2026-02-11T18:57:26.791297Z 01O             >>> from selenium.webdriver.common.by import By
+2026-02-11T18:57:26.791297Z 01O             >>> from selenium.webdriver.support.ui import WebDriverWait
+2026-02-11T18:57:26.791298Z 01O             >>> from selenium.webdriver.support import expected_conditions as EC
+2026-02-11T18:57:26.791299Z 01O             >>>
+2026-02-11T18:57:26.791299Z 01O             >>> # Wait until an element is visible on the page
+2026-02-11T18:57:26.791300Z 01O             >>> wait = WebDriverWait(driver, 10)
+2026-02-11T18:57:26.791300Z 01O             >>> element = wait.until(EC.visibility_of_element_located((By.ID, "exampleId")))
+2026-02-11T18:57:26.791301Z 01O             >>> print(element.text)
+2026-02-11T18:57:26.791301Z 01O         """
+2026-02-11T18:57:26.791302Z 01O         screen = None
+2026-02-11T18:57:26.791302Z 01O         stacktrace = None
+2026-02-11T18:57:26.791303Z 01O     
+2026-02-11T18:57:26.791303Z 01O         end_time = time.monotonic() + self._timeout
+2026-02-11T18:57:26.791304Z 01O         while True:
+2026-02-11T18:57:26.791304Z 01O             try:
+2026-02-11T18:57:26.791304Z 01O                 value = method(self._driver)
+2026-02-11T18:57:26.791305Z 01O                 if value:
+2026-02-11T18:57:26.791305Z 01O                     return value
+2026-02-11T18:57:26.791306Z 01O             except self._ignored_exceptions as exc:
+2026-02-11T18:57:26.791306Z 01O                 screen = getattr(exc, "screen", None)
+2026-02-11T18:57:26.791307Z 01O                 stacktrace = getattr(exc, "stacktrace", None)
+2026-02-11T18:57:26.791308Z 01O             if time.monotonic() > end_time:
+2026-02-11T18:57:26.791308Z 01O                 break
+2026-02-11T18:57:26.791309Z 01O             time.sleep(self._poll)
+2026-02-11T18:57:26.791309Z 01O >       raise TimeoutException(message, screen, stacktrace)
+2026-02-11T18:57:26.791310Z 01O E       selenium.common.exceptions.TimeoutException: Message: 
+2026-02-11T18:57:26.791310Z 01O E       Stacktrace:
+2026-02-11T18:57:26.791311Z 01O E       #0 0x5acb5fb8b4ba <unknown>
+2026-02-11T18:57:26.791311Z 01O E       #1 0x5acb5f5f4492 <unknown>
+2026-02-11T18:57:26.791312Z 01O E       #2 0x5acb5f6499b6 <unknown>
+2026-02-11T18:57:26.791312Z 01O E       #3 0x5acb5f649bf1 <unknown>
+2026-02-11T18:57:26.791313Z 01O E       #4 0x5acb5f6954d4 <unknown>
+2026-02-11T18:57:26.791313Z 01O E       #5 0x5acb5f692700 <unknown>
+2026-02-11T18:57:26.791313Z 01O E       #6 0x5acb5f63b6a2 <unknown>
+2026-02-11T18:57:26.791314Z 01O E       #7 0x5acb5f63c491 <unknown>
+2026-02-11T18:57:26.791314Z 01O E       #8 0x5acb5fb51479 <unknown>
+2026-02-11T18:57:26.791315Z 01O E       #9 0x5acb5fb54391 <unknown>
+2026-02-11T18:57:26.791315Z 01O E       #10 0x5acb5fb3da89 <unknown>
+2026-02-11T18:57:26.791316Z 01O E       #11 0x5acb5fb54f4e <unknown>
+2026-02-11T18:57:26.791316Z 01O E       #12 0x5acb5fb24070 <unknown>
+2026-02-11T18:57:26.791317Z 01O E       #13 0x5acb5fb78ca8 <unknown>
+2026-02-11T18:57:26.791317Z 01O E       #14 0x5acb5fb78e78 <unknown>
+2026-02-11T18:57:26.791318Z 01O E       #15 0x5acb5fb8a828 <unknown>
+2026-02-11T18:57:26.791318Z 01O E       #16 0x79dcafa1baa4 <unknown>
+2026-02-11T18:57:26.791319Z 01O E       #17 0x79dcafaa8c6c <unknown>
+2026-02-11T18:57:26.791323Z 01O 
+2026-02-11T18:57:26.791323Z 01O venv/lib/python3.11/site-packages/selenium/webdriver/support/wait.py:121: TimeoutException
+2026-02-11T18:57:26.791324Z 01O =========================== short test summary info ============================
+2026-02-11T18:57:26.791325Z 01O FAILED tests/test_ui_meal_plan.py::TestMealPlanUI::test_view_meal_plan - selenium.common.exceptions.TimeoutException: Message: 
+2026-02-11T18:57:26.791325Z 01O Stacktrace:
+2026-02-11T18:57:26.791326Z 01O #0 0x59c041cb74ba <unknown>
+2026-02-11T18:57:26.791326Z 01O #1 0x59c041720492 <unknown>
+2026-02-11T18:57:26.791327Z 01O #2 0x59c0417759b6 <unknown>
+2026-02-11T18:57:26.791327Z 01O #3 0x59c041775bf1 <unknown>
+2026-02-11T18:57:26.791328Z 01O #4 0x59c0417c14d4 <unknown>
+2026-02-11T18:57:26.791328Z 01O #5 0x59c0417be700 <unknown>
+2026-02-11T18:57:26.791329Z 01O #6 0x59c0417676a2 <unknown>
+2026-02-11T18:57:26.791329Z 01O #7 0x59c041768491 <unknown>
+2026-02-11T18:57:26.791329Z 01O #8 0x59c041c7d479 <unknown>
+2026-02-11T18:57:26.791330Z 01O #9 0x59c041c80391 <unknown>
+2026-02-11T18:57:26.791330Z 01O #10 0x59c041c69a89 <unknown>
+2026-02-11T18:57:26.791331Z 01O #11 0x59c041c80f4e <unknown>
+2026-02-11T18:57:26.791331Z 01O #12 0x59c041c50070 <unknown>
+2026-02-11T18:57:26.791332Z 01O #13 0x59c041ca4ca8 <unknown>
+2026-02-11T18:57:26.791332Z 01O #14 0x59c041ca4e78 <unknown>
+2026-02-11T18:57:26.791333Z 01O #15 0x59c041cb6828 <unknown>
+2026-02-11T18:57:26.791333Z 01O #16 0x7f02225d8aa4 <unknown>
+2026-02-11T18:57:26.791334Z 01O #17 0x7f0222665c6c <unknown>
+2026-02-11T18:57:26.791334Z 01O FAILED tests/test_ui_meal_plan.py::TestMealPlanUI::test_delete_meal_plan - selenium.common.exceptions.TimeoutException: Message: 
+2026-02-11T18:57:26.791335Z 01O Stacktrace:
+2026-02-11T18:57:26.791335Z 01O #0 0x5abc696a04ba <unknown>
+2026-02-11T18:57:26.791336Z 01O #1 0x5abc69109492 <unknown>
+2026-02-11T18:57:26.791336Z 01O #2 0x5abc6915e9b6 <unknown>
+2026-02-11T18:57:26.791337Z 01O #3 0x5abc6915ebf1 <unknown>
+2026-02-11T18:57:26.791337Z 01O #4 0x5abc691aa4d4 <unknown>
+2026-02-11T18:57:26.791337Z 01O #5 0x5abc691a7700 <unknown>
+2026-02-11T18:57:26.791338Z 01O #6 0x5abc691506a2 <unknown>
+2026-02-11T18:57:26.791338Z 01O #7 0x5abc69151491 <unknown>
+2026-02-11T18:57:26.791339Z 01O #8 0x5abc69666479 <unknown>
+2026-02-11T18:57:26.791339Z 01O #9 0x5abc69669391 <unknown>
+2026-02-11T18:57:26.791340Z 01O #10 0x5abc69652a89 <unknown>
+2026-02-11T18:57:26.791340Z 01O #11 0x5abc69669f4e <unknown>
+2026-02-11T18:57:26.791341Z 01O #12 0x5abc69639070 <unknown>
+2026-02-11T18:57:26.791341Z 01O #13 0x5abc6968dca8 <unknown>
+2026-02-11T18:57:26.791342Z 01O #14 0x5abc6968de78 <unknown>
+2026-02-11T18:57:26.791342Z 01O #15 0x5abc6969f828 <unknown>
+2026-02-11T18:57:26.791342Z 01O #16 0x7c098feceaa4 <unknown>
+2026-02-11T18:57:26.791343Z 01O #17 0x7c098ff5bc6c <unknown>
+2026-02-11T18:57:26.791343Z 01O FAILED tests/test_ui_meal_plan.py::TestMealPlanUI::test_check_shopping_list - selenium.common.exceptions.TimeoutException: Message: 
+2026-02-11T18:57:26.791344Z 01O Stacktrace:
+2026-02-11T18:57:26.791345Z 01O #0 0x5acb5fb8b4ba <unknown>
+2026-02-11T18:57:26.791345Z 01O #1 0x5acb5f5f4492 <unknown>
+2026-02-11T18:57:26.791346Z 01O #2 0x5acb5f6499b6 <unknown>
+2026-02-11T18:57:26.791346Z 01O #3 0x5acb5f649bf1 <unknown>
+2026-02-11T18:57:26.791347Z 01O #4 0x5acb5f6954d4 <unknown>
+2026-02-11T18:57:26.791348Z 01O #5 0x5acb5f692700 <unknown>
+2026-02-11T18:57:26.791349Z 01O #6 0x5acb5f63b6a2 <unknown>
+2026-02-11T18:57:26.791349Z 01O #7 0x5acb5f63c491 <unknown>
+2026-02-11T18:57:26.791350Z 01O #8 0x5acb5fb51479 <unknown>
+2026-02-11T18:57:26.791351Z 01O #9 0x5acb5fb54391 <unknown>
+2026-02-11T18:57:26.791351Z 01O #10 0x5acb5fb3da89 <unknown>
+2026-02-11T18:57:26.791352Z 01O #11 0x5acb5fb54f4e <unknown>
+2026-02-11T18:57:26.791353Z 01O #12 0x5acb5fb24070 <unknown>
+2026-02-11T18:57:26.791354Z 01O #13 0x5acb5fb78ca8 <unknown>
+2026-02-11T18:57:26.791355Z 01O #14 0x5acb5fb78e78 <unknown>
+2026-02-11T18:57:26.791355Z 01O #15 0x5acb5fb8a828 <unknown>
+2026-02-11T18:57:26.791356Z 01O #16 0x79dcafa1baa4 <unknown>
+2026-02-11T18:57:26.791356Z 01O #17 0x79dcafaa8c6c <unknown>
+2026-02-11T18:57:26.791360Z 01O ======================== 3 failed, 1 skipped in 33.86s =========================
+2026-02-11T18:57:27.041543Z 00O section_end:1770836247:step_script
+2026-02-11T18:57:27.041547Z 00O+[0Ksection_start:1770836247:cleanup_file_variables
+2026-02-11T18:57:27.042291Z 00O+[0K[0K[36;1mCleaning up project directory and file based variables[0;m[0;m
+2026-02-11T18:57:27.603778Z 00O section_end:1770836247:cleanup_file_variables
+2026-02-11T18:57:27.603781Z 00O+[0K
+2026-02-11T18:57:27.881018Z 00O [31;1mERROR: Job failed: exit code 1[0;m
