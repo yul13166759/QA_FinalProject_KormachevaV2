@@ -54,17 +54,22 @@ test_ui_mock:
       - allure-ui-mock/
     expire_in: 1 hour
 
-# Тесты с реальным API
+# Тесты API с мок-сервером (стабильные)
 test_api:
   stage: test
   image: python:3.11-bullseye
   dependencies:
     - prepare
+  variables:
+    BASE_URL: "http://localhost:8000"
   before_script:
     - source venv/bin/activate
-    - cp .env.ci .env  # Копируем credentials
+    - pip install flask
   script:
-    - pytest tests/test_api_client.py -m api --alluredir=allure-api
+    - python mock_tandoor_server.py &
+    - sleep 5
+    - pytest tests/test_api_mock.py -v --alluredir=allure-api
+    - pkill -f mock_tandoor_server || true
   artifacts:
     paths:
       - allure-api/
