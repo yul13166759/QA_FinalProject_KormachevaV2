@@ -20,16 +20,78 @@ class TestAPIClient:
             plan = api_client.create_meal_plan(data)
             assert plan is not None
             assert 'id' in plan
-            # Сохранить ID для удаления
-            pytest.plan_id = plan['id']
 
     @allure.step("Delete meal plan")
-    def test_delete_meal_plan(self, api_client):
-        if hasattr(pytest, 'plan_id'):
-            result = api_client.delete_meal_plan(pytest.plan_id)
-            assert result is True
+    def test_delete_meal_plan(self, api_client, get_or_create_recipe):
+        # Создать план для удаления
+        data = generate_test_data()
+        data['recipe'] = get_or_create_recipe
+        plan = api_client.create_meal_plan(data)
+        assert plan is not None
+        assert 'id' in plan
+        plan_id = plan['id']
+
+        # Удалить план
+        result = api_client.delete_meal_plan(plan_id)
+        assert result is True
+
+        # Проверить, что план действительно удален
+        deleted_plan = api_client.get_meal_plan(plan_id)
+        assert deleted_plan is None
 
     @allure.step("Get shopping list")
     def test_get_shopping_list(self, api_client):
         shopping_list = api_client.get_shopping_list()
         assert shopping_list is not None
+
+    @allure.step("Import recipe")
+    def test_import_recipe(self, api_client):
+        url = "https://eda.ru/recepty/zavtraki/omlet-s-syrom-i-zelenyu-12345"
+        recipe = api_client.import_recipe(url)
+        assert recipe is not None
+        assert 'id' in recipe
+
+    @allure.step("Import recipe with invalid URL")
+    def test_import_recipe_invalid_url(self, api_client):
+        url = "https://invalid-url-that-does-not-exist.com"
+        recipe = api_client.import_recipe(url)
+        assert recipe is None
+
+    @allure.step("Delete recipe")
+    def test_delete_recipe(self, api_client, get_or_create_recipe):
+        if get_or_create_recipe:
+            result = api_client.delete_recipe(get_or_create_recipe)
+            assert result is True
+
+    @allure.step("Delete non-existent recipe")
+    def test_delete_nonexistent_recipe(self, api_client):
+        result = api_client.delete_recipe(99999)
+        assert result is False
+
+    @allure.step("Test error handling - delete non-existent meal plan")
+    def test_delete_nonexistent_meal_plan(self, api_client):
+        result = api_client.delete_meal_plan(99999)  # Несуществующий ID
+        assert result is False  # Должно вернуть False при ошибке
+
+    @allure.step("Test error handling - get non-existent recipe")
+    def test_get_nonexistent_recipe(self, api_client):
+        recipe = api_client.get_recipe(99999)
+        assert recipe is None
+
+    @allure.step("Test error handling - get non-existent meal plan")
+    def test_get_nonexistent_meal_plan(self, api_client):
+        plan = api_client.get_meal_plan(99999)
+        assert plan is None
+
+    @allure.step("Test error handling - create meal plan with invalid data")
+    def test_create_meal_plan_invalid_data(self, api_client):
+        invalid_data = {
+            'title': '',
+            'from_date': '2023-01-01',
+            'to_date': '2023-01-01',
+            'meal_type': 1,
+            'recipe': 99999,  # Несуществующий рецепт
+            'servings': 1
+        }
+        plan = api_client.create_meal_plan(invalid_data)
+        assert plan is None

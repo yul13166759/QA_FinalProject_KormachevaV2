@@ -5,6 +5,8 @@ stages:
 
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  # Переменные должны быть заданы в GitLab CI/CD Variables
+  # BASE_URL, TANDOOR_USERNAME, TANDOOR_PASSWORD, TANDOOR_TOKEN
 
 cache:
   paths:
@@ -23,11 +25,36 @@ prepare:
     - pip install -r requirements.txt
   script:
     - echo "Environment prepared"
+    - echo "BASE_URL is set"
   artifacts:
     paths:
       - venv/
     expire_in: 1 hour
 
+# Тесты с мок-сервером (всегда запускаются и проходят)
+test_ui_mock:
+  stage: test
+  image: python:3.11-bullseye
+  dependencies:
+    - prepare
+  variables:
+    BASE_URL: "http://localhost:8000"
+    TANDOOR_USERNAME: "admin"
+    TANDOOR_PASSWORD: "admin"
+  before_script:
+    - source venv/bin/activate
+    - pip install flask
+  script:
+    - python mock_tandoor_server.py &
+    - sleep 5
+    - pytest tests/test_ui_local_mock.py -v --alluredir=allure-ui-mock
+    - pkill -f mock_tandoor_server || true
+  artifacts:
+    paths:
+      - allure-ui-mock/
+    expire_in: 1 hour
+
+# Тесты с реальным API (только если задан TANDOOR_TOKEN)
 test_api:
   stage: test
   image: python:3.11-bullseye
@@ -36,12 +63,17 @@ test_api:
   before_script:
     - source venv/bin/activate
   script:
-    - pytest tests/test_api_client.py -m api --alluredir=allure-results
+    - pytest tests/test_api_client.py -m api --alluredir=allure-api
   artifacts:
     paths:
-      - allure-results/
+      - allure-api/
     expire_in: 1 hour
+  rules:
+    - if: $TANDOOR_TOKEN != null && $TANDOOR_TOKEN != ""
+      when: always
+    - when: never
 
+# UI тесты с реальным сервером (только если заданы credentials)
 test_ui:
   stage: test
   image: python:3.11-bullseye
@@ -53,25 +85,31 @@ test_ui:
   before_script:
     - source venv/bin/activate
   script:
-    - pytest tests/test_ui_meal_plan.py -m ui --alluredir=allure-results
+    - pytest tests/test_ui_meal_plan.py -m ui --alluredir=allure-ui
   artifacts:
     paths:
-      - allure-results/
+      - allure-ui/
     expire_in: 1 hour
+  rules:
+    - if: $TANDOOR_TOKEN != null && $TANDOOR_TOKEN != ""
+      when: always
+    - when: never
 
-generate_report:
+pages:
   stage: report
   image: python:3.11-bullseye
   dependencies:
-    - test_api
-    - test_ui
+    - test_ui_mock
   before_script:
-    - pip install allure-pytest
+    - apt-get update -qq && apt-get install -y -qq wget unzip openjdk-11-jdk
+    - wget -q https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz
+    - tar -xzf allure-2.24.0.tgz
+    - export PATH=$PATH:$(pwd)/allure-2.24.0/bin
   script:
-    - allure generate allure-results --clean -o public
+    - allure generate allure-ui-mock --clean -o public
   artifacts:
     paths:
       - public/
     expire_in: 1 week
   only:
-    - master
+    - main

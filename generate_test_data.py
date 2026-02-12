@@ -1,8 +1,21 @@
 import json
 import datetime
+import os
 from api.client import TandoorAPIClient
 
 def generate_test_data():
+    if os.getenv('CI'):
+        # В CI режиме возвращаем mock данные
+        today = datetime.date.today()
+        return {
+            "title": "Test Meal Plan",
+            "recipe": 1,
+            "from_date": str(today),
+            "to_date": str(today + datetime.timedelta(days=7)),
+            "meal_type": "Завтрак",
+            "servings": 2
+        }
+    
     client = TandoorAPIClient()
 
     # Загрузить ссылки из файла

@@ -3,3 +3,4 @@ selenium
 requests
 allure-pytest
 python-dotenv
+flask
