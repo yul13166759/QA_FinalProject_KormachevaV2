@@ -10,6 +10,15 @@ load_dotenv()
 class TandoorAPIClient:
     def __init__(self):
         self.base_url = os.getenv('BASE_URL')
+        
+        # ЗАЩИТА: проверяем и исправляем BASE_URL если нужно
+        if not self.base_url or self.base_url == '$BASE_URL':
+            self.base_url = 'https://app.tandoor.dev'
+            print(f"WARNING: BASE_URL не задан, используем значение по умолчанию: {self.base_url}")
+        elif '://' not in str(self.base_url):
+            print(f"ERROR: BASE_URL имеет неверный формат: {self.base_url}")
+            self.base_url = None
+        
         self.token = os.getenv('TANDOOR_TOKEN')
         self.username = os.getenv('TANDOOR_USERNAME')
         self.password = os.getenv('TANDOOR_PASSWORD')

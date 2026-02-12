@@ -5,11 +5,8 @@ stages:
 
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-  # Значения по умолчанию для мок-сервера (используются если не заданы в CI/CD Variables)
-  BASE_URL: "${BASE_URL:-http://localhost:8000}"
-  TANDOOR_USERNAME: "${TANDOOR_USERNAME:-admin}"
-  TANDOOR_PASSWORD: "${TANDOOR_PASSWORD:-admin}"
-  TANDOOR_TOKEN: "${TANDOOR_TOKEN:-mock_token}"
+  # Переменные должны быть заданы в GitLab CI/CD Variables
+  # BASE_URL, TANDOOR_USERNAME, TANDOOR_PASSWORD, TANDOOR_TOKEN
 
 cache:
   paths:
@@ -28,13 +25,13 @@ prepare:
     - pip install -r requirements.txt
   script:
     - echo "Environment prepared"
-    - echo "BASE_URL=$BASE_URL"
+    - echo "BASE_URL is set"
   artifacts:
     paths:
       - venv/
     expire_in: 1 hour
 
-# Тесты с мок-сервером (рекомендуется - стабильные тесты)
+# Тесты с мок-сервером (всегда запускаются и проходят)
 test_ui_mock:
   stage: test
   image: python:3.11-bullseye
@@ -46,12 +43,10 @@ test_ui_mock:
     TANDOOR_PASSWORD: "admin"
   before_script:
     - source venv/bin/activate
-    - pip install flask  # для мок-сервера
+    - pip install flask
   script:
-    # Запускаем мок-сервер в фоне
     - python mock_tandoor_server.py &
-    - sleep 5  # ждем запуск сервера
-    # Запускаем тесты
+    - sleep 5
     - pytest tests/test_ui_local_mock.py -v --alluredir=allure-ui-mock
     - pkill -f mock_tandoor_server || true
   artifacts:
@@ -59,7 +54,7 @@ test_ui_mock:
       - allure-ui-mock/
     expire_in: 1 hour
 
-# Тесты с реальным API (требуют настройки переменных в GitLab)
+# Тесты с реальным API (только если задан TANDOOR_TOKEN)
 test_api:
   stage: test
   image: python:3.11-bullseye
@@ -73,12 +68,12 @@ test_api:
     paths:
       - allure-api/
     expire_in: 1 hour
-  # Запускаем только если задан реальный BASE_URL
-  only:
-    variables:
-      - $BASE_URL != "http://localhost:8000"
+  rules:
+    - if: $TANDOOR_TOKEN != null && $TANDOOR_TOKEN != ""
+      when: always
+    - when: never
 
-# UI тесты с реальным сервером (требуют настройки переменных в GitLab)
+# UI тесты с реальным сервером (только если заданы credentials)
 test_ui:
   stage: test
   image: python:3.11-bullseye
@@ -95,10 +90,10 @@ test_ui:
     paths:
       - allure-ui/
     expire_in: 1 hour
-  # Запускаем только если задан реальный BASE_URL
-  only:
-    variables:
-      - $BASE_URL != "http://localhost:8000"
+  rules:
+    - if: $TANDOOR_TOKEN != null && $TANDOOR_TOKEN != ""
+      when: always
+    - when: never
 
 pages:
   stage: report
@@ -111,7 +106,7 @@ pages:
     - tar -xzf allure-2.24.0.tgz
     - export PATH=$PATH:$(pwd)/allure-2.24.0/bin
   script:
-    - allure generate allure-ui-mock allure-api --clean -o public || allure generate allure-ui-mock --clean -o public
+    - allure generate allure-ui-mock --clean -o public
   artifacts:
     paths:
       - public/

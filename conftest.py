@@ -133,8 +133,14 @@ def logged_in_driver(driver):
     from pages.login_page import LoginPage
     import os
     
+    base_url = os.getenv('BASE_URL')
+    
+    # ЗАЩИТА: проверяем, что BASE_URL задан правильно
+    if not base_url or base_url == '$BASE_URL' or '://' not in str(base_url):
+        pytest.skip(f"BASE_URL не настроен правильно: {base_url}. Пропускаем тест.")
+    
     login_page = LoginPage(driver)
-    login_page.open_url(f"{os.getenv('BASE_URL')}/accounts/login/")
+    login_page.open_url(f"{base_url}/accounts/login/")
     login_page.login(os.getenv('TANDOOR_USERNAME'), os.getenv('TANDOOR_PASSWORD'))
     yield driver
 
