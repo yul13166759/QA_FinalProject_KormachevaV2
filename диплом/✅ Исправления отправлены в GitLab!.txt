@@ -1,0 +1,40 @@
+✅ **Исправления отправлены в GitLab!**
+
+## Что было исправлено:
+
+### 1. **conftest.py** - Исправлена ошибка скриншота
+```python
+# Добавлена проверка активности сессии перед скриншотом
+try:
+    driver.current_url  # Проверяем сессию
+    screenshot = driver.get_screenshot_as_png()
+    allure.attach(screenshot, ...)
+except Exception as e:
+    print(f"Could not capture screenshot: {e}")
+```
+
+### 2. **Локальный .env обновлён** с вашими данными:
+- BASE_URL=https://app.tandoor.dev ✅
+- TANDOOR_USERNAME=ykormacheva13166759 ✅
+- TANDOOR_PASSWORD=3aprHKtxYmh27!u ✅
+- TANDOOR_TOKEN=tda_44d23298_... ✅
+
+## ⚠️ Действие требуется в GitLab:
+
+**Добавьте переменные в GitLab CI/CD:**
+
+1. Перейдите: https://gitlab.com/ykormacheva13166759-group/qa_finalproject_kormachevav2/-/settings/ci_cd
+
+2. Нажмите **"Add variable"** и добавьте:
+
+| Key | Value | Protected | Masked |
+|-----|-------|-----------|--------|
+| `BASE_URL` | `https://app.tandoor.dev` | ✅ | ❌ |
+| `TANDOOR_USERNAME` | `ykormacheva13166759` | ✅ | ❌ |
+| `TANDOOR_PASSWORD` | `3aprHKtxYmh27!u` | ✅ | ✅ |
+| `TANDOOR_TOKEN` | `tda_44d23298_2e3f_4031_a056_f3a836c0f0fd` | ✅ | ✅ |
+
+3. Запустите pipeline заново
+
+## Ошибки API (403 Forbidden):
+Возможно, токен не имеет прав на создание планов питания. Проверьте права токена в настройках Tandoor.
