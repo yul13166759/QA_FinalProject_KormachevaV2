@@ -1,0 +1,9 @@
+Session login failed: 500
+Error 403 Forbidden: 403 Client Error: Forbidden for url: https://app.tandoor.dev/api/bookmarklet/import/ - Недостаточно прав доступа
+Session login failed: 500
+Error 403 Forbidden: 403 Client Error: Forbidden for url: https://app.tandoor.dev/api/bookmarklet/import/ - Недостаточно прав доступа
+Error: Request timeout for https://app.tandoor.dev/api/bookmarklet/import/
+Error 403 Forbidden: 403 Client Error: Forbidden for url: https://app.tandoor.dev/api/bookmarklet/import/ - Недостаточно прав доступа
+Error 403 Forbidden: 403 Client Error: Forbidden for url: https://app.tandoor.dev/api/bookmarklet/import/ - Недостаточно прав доступа
+Error 403 Forbidden: 403 Client Error: Forbidden for url: https://app.tandoor.dev/api/bookmarklet/import/ - Недостаточно прав доступа
+Error: ('Connection aborted.', ConnectionResetError(10054, 'Удаленный хост принудительно разорвал существующее подключение', None, 10054, None))
