@@ -6,6 +6,34 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+@pytest.fixture(scope="function")
+def logged_in_driver(driver):
+    """Фикстура для входа в систему один раз на тест"""
+    base_url = os.getenv('BASE_URL', 'http://localhost:8000')
+    
+    # Логинимся
+    login_url = f"{base_url}/accounts/login/"
+    driver.get(login_url)
+    
+    # Ждем загрузки формы
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.NAME, "login"))
+    )
+    
+    # Заполняем поля
+    driver.find_element(By.NAME, "login").send_keys("admin")
+    driver.find_element(By.NAME, "password").send_keys("admin")
+    
+    # Кликаем по кнопке
+    driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
+    
+    # Ждем перехода
+    WebDriverWait(driver, 10).until(
+        EC.url_contains("/plan/")
+    )
+    
+    yield driver
+
 @pytest.mark.ui
 @pytest.mark.local
 @allure.feature("Meal Plan UI - Local Mock Server")
@@ -53,11 +81,9 @@ class TestMealPlanUILocal:
         assert "/plan/" in driver.current_url
 
     @allure.step("Create meal plan on local server")
-    def test_create_meal_plan_local(self, driver):
+    def test_create_meal_plan_local(self, logged_in_driver):
         """Создание плана питания на локальном сервере"""
-        # Сначала логинимся
-        self._do_login(driver)
-        
+        driver = logged_in_driver
         print("\n📋 Создаём план питания...")
         
         # Ждем загрузки страницы
@@ -95,11 +121,9 @@ class TestMealPlanUILocal:
         print(f"   ✓ План '{title}' найден на странице!")
 
     @allure.step("View shopping list on local server")
-    def test_shopping_list_local(self, driver):
+    def test_shopping_list_local(self, logged_in_driver):
         """Проверка списка покупок"""
-        # Логин
-        self._do_login(driver)
-        
+        driver = logged_in_driver
         print("\n🛒 Переходим в список покупок...")
         
         # Кликаем по ссылке Shopping List
@@ -117,20 +141,3 @@ class TestMealPlanUILocal:
         time.sleep(3)
         
         assert "/shopping/" in driver.current_url
-
-    def _do_login(self, driver):
-        """Вспомогательный метод для логина"""
-        login_url = f"{self.base_url}/accounts/login/"
-        driver.get(login_url)
-        
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.NAME, "login"))
-        )
-        
-        driver.find_element(By.NAME, "login").send_keys("admin")
-        driver.find_element(By.NAME, "password").send_keys("admin")
-        driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
-        
-        WebDriverWait(driver, 10).until(
-            EC.url_contains("/plan/")
-        )

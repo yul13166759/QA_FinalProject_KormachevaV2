@@ -39,11 +39,16 @@ def get_or_create_recipe(api_client):
 def driver():
     options = Options()
     options.add_argument('--headless')
-    if os.getenv('CI'):
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    
+    remote_url = os.getenv('SELENIUM_REMOTE_URL')
+    
+    if remote_url:
         # В CI используем Selenium Grid
         try:
             driver = webdriver.Remote(
-                command_executor='http://selenium:4444/wd/hub',
+                command_executor=remote_url,
                 options=options
             )
         except Exception as e:
