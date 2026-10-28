@@ -48,6 +48,34 @@ Eduson Academy — «Тестировщик ПО (QA Engineer)», 229 ч
 | Автотестов | 3 основных сценария |
 | Покрытие | Основные функции Meal Plan |
 
+---
+
+## 📸 Артефакты проекта
+
+### API клиент
+Код API-клиента для работы с Tandoor REST API (методы GET, POST, DELETE, обработка ошибок, retry strategy):
+
+![API клиент часть 1](images/api_client_part.png)
+![API клиент часть 2](images/api_client_part1.png)
+
+### API тесты
+Тестовые функции с использованием pytest и Allure (тестирование CRUD операций, обработка ошибок):
+
+![API тесты](images/api_tests.png)
+
+### Фикстуры pytest
+Конфигурация тестового окружения и фикстуры:
+
+![Conftest fixtures часть 1](images/conftest_fixtures.png)
+![Conftest fixtures часть 2](images/conftest_fixtures1.png)
+
+### GitLab CI/CD пайплайн
+Автоматический запуск тестов, генерация Allure-отчётов и публикация на GitLab Pages:
+
+![GitLab CI/CD](images/gitlab_ci_pipeline.png)
+
+---
+
 ## Описание проекта
 
 Проект автоматизирует тестирование ключевых сценариев управления планами питания в Tandoor:
